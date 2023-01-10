@@ -1,8 +1,16 @@
-
+import {BrowserRouter,Route,Routes} from 'react-router-dom' 
+import Manager from './Pages/Manager/Manager';
+import Suggest from './Pages/Manager/Suggest';
 function App() {
   return (
-    <div className="h-screen bg-blue-100">
-    </div>
+   <>
+   <BrowserRouter>
+    <Routes>
+      <Route path='/manager' element={<Manager/>}></Route>
+      <Route path='/manager/suggest' element={<Suggest/>}></Route>
+    </Routes>
+   </BrowserRouter>
+   </>
   );
 }
 
