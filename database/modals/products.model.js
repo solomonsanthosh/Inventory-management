@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-	const User = sequelize.define("products", {
+	const Products = sequelize.define("products", {
 		product_id: {
-			type: DataTypes.STRING,
+			type: DataTypes.INTEGER,
 			primaryKey: true,
 			allowNull: false,
 		},
@@ -18,6 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 	});
-	// User.sync({ force: true }).then(() => console.log('USER MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
-	return User;
+	// Products.sync({ force: true }).then(() => console.log('Products MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
+	return Products;
 };

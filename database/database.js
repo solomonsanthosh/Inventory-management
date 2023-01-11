@@ -18,8 +18,8 @@ sequelize.authenticate().then(() => console.log("Database Connected")).catch((er
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.User = require("./modals/user.model")(sequelize, Sequelize.DataTypes);
-db.Product = require("./modals/products.model")(sequelize, Sequelize.DataTypes);
-db.Product = require("./modals/warehouse.model")(sequelize, Sequelize.DataTypes);
-db.Product = require("./modals/store.model")(sequelize, Sequelize.DataTypes);
+db.Products = require("./modals/products.model")(sequelize, Sequelize.DataTypes);
+db.Warehouse = require("./modals/warehouse.model")(sequelize, Sequelize.DataTypes);
+db.Store = require("./modals/store.model")(sequelize, Sequelize.DataTypes);
 
 module.exports = db;
