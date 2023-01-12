@@ -8,22 +8,21 @@ const CreateAccount = ({setOpenModel}) => {
   const [trigger, setTrigger] = useState(false)
   const [name, setName] = useState('');
     useEffect(() => {
-      
-    
-        if(password.length > 0 && accountId.length > 0 && name.length > 0) {
+        
+        if(password.length > 0 &&  name.length > 0) {
             setTextErr(false)
         }  else {
             setTextErr(true)
         }
-      
+  
     }, [trigger])
     
-  const [accountId, setAccountId] = useState("");
+
   const [password, setPassword] = useState("");
   const [textErr, setTextErr] = useState(null)
   const submitForm = () => {
     const user = {
-      id: accountId,
+
       name:name,
       password: password
     }
@@ -37,11 +36,6 @@ const CreateAccount = ({setOpenModel}) => {
           <h1 className="text-[1.5rem] font-bold mb-8">Create Account</h1>
         
 
-          <TextField id="outlined-required"  className="w-[%100]" required label="Account ID" onChange={(e)=>{
-            setAccountId(e.target.value);
-            setTrigger(!trigger);
-            }}/>
-        <br/>
         <TextField id="outlined-required"  className="w-[%100]" required label="Name" onChange={(e)=>{
             setName(e.target.value);
             setTrigger(!trigger);

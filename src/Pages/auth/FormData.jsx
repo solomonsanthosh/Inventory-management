@@ -1,46 +1,55 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import { login } from '../../Axios/user';
 
-function FormData(props) {
-    let base;
-    if (props.val === "Sign In") {
-        base = ""
-    } else {
-        base = <div class="flex items-center justify-between">
-            <div>
-                <input type="checkbox" name="remember-me" id="remember-me" />
-                <label html="remember-me" className="text-base font-medium ">  Remember Me</label>
-            </div>
-        </div>
+function FormData() {
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    
+    const [trigger, setTrigger] = useState(false)
+    const [textErr, setTextErr] = useState(null)
+      useEffect(() => {
+        
+      
+          if(password.length > 0 &&  name.length > 0) {
+              setTextErr(false)
+          }  else {
+              setTextErr(true)
+          }
+        
+      }, [trigger])
+
+    const submitLogin = (e) => {
+        e.preventDefault();
+        const user = {
+            name:name,
+            password:password
+        }
+        login(user).then((res)=>{
+            if(res?.data.message == 'success'){
+                localStorage.setItem('jwt',res)
+                
+            }
+           
+        })
     }
 
     return (
-        <form action="" class=" mt-8 mb-0 w-full space-y-4">
+        <form  class=" mt-8 mb-0 w-full space-y-4">
             <div>
-                <label for="email" class="sr-only">Email</label>
+                <label for="email" class="sr-only">Name</label>
 
                 <div class="relative w-full">
                     <input
-                        type="email"
+                        type="text"
                         class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                        placeholder="Enter email"
+                        placeholder="Enter name"
+                        onChange={(e)=>{
+                            setName(e.target.value)
+                            setTrigger(!trigger)
+                        }}
                     />
 
-                    <span class="absolute inset-y-0 right-4 inline-flex items-center">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 text-gray-400"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                strokeWidth="2"
-                                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                            />
-                        </svg>
-                    </span>
+                    
                 </div>
             </div>
 
@@ -51,6 +60,10 @@ function FormData(props) {
                         type="password"
                         class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
                         placeholder="Enter password"
+                        onChange={(e)=>{
+                            setPassword(e.target.value)
+                            setTrigger(!trigger)
+                        }}
                     />
 
                     <span class="absolute inset-y-0 right-4 inline-flex items-center">
@@ -78,9 +91,8 @@ function FormData(props) {
                 </div>
             </div>
 
-            {/*  */}
-            {base}
-            <button type="submit" className=" px-8 py-2 bg-highlight text-white rounded-3xl">SUBMIT</button>
+      
+            <button disabled={textErr}  onClick={submitLogin}  className=" px-8 py-2 bg-highlight text-white rounded-3xl">SUBMIT</button>
         </form>
     )
 }
