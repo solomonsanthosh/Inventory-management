@@ -1,29 +1,17 @@
 const router = require("express").Router();
 
 const {User} = require("../database/database");
+const {createAccount,showAccounts,loginAccount,refresh} = require('../controllers/User');
 
-router.post("/create", async (req, res) => {
-	try {
-		const jane = await User.create({
-			id: "sadfasdfasfd",
-			name: "Helsadfasdflo",
-			password: "Wordasfasdfld",
-		}).then((response) => {
-			console.log(response);
-		});
-	} catch (error) {
-		console.log(error);
-	}
-});
 
-router.get("/showusers", async (req, res) => {
-	try {
-		const users = await User.findAll()
-		res.json(users);
-		console.log(users);
-	} catch (error) {
-		console.log(error);
-	}
-});
+const {checkLogin} = require('../middleware/user')
+
+
+
+router.post("/create", createAccount);
+
+router.get('/show',showAccounts);
+router.post('/refresh',refresh);
+router.post('/login',loginAccount);
 
 module.exports = router;
