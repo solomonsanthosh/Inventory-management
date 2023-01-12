@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React,{useState} from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,10 +18,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
-
+import AddIcon from '@mui/icons-material/Add';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from "react-router-dom";
+import CreateAccount from "../CreateAccount";
 const drawerWidth = 240;
+
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -100,8 +103,11 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const [openModel, setOpenModel] = useState(false);
   return (
-    <Box sx={{ display: "flex" }}>
+    <>
+    {openModel ?<CreateAccount setOpenModel={setOpenModel}/>:null}
+    <Box sx={{ display: "flex" }} >
       <CssBaseline />
       
       {/* <AppBar  >
@@ -110,7 +116,7 @@ export default function MiniDrawer() {
           
         </Toolbar>
       </AppBar> */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} className="z-1">
         <DrawerHeader>
             
           {open ? (<IconButton onClick={handleDrawerClose}>
@@ -182,6 +188,52 @@ export default function MiniDrawer() {
               </ListItemButton>
             </ListItem>
             </Link>
+            
+            <ListItem key={"Approve"} onClick={()=>setOpenModel(!openModel)} disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AddIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Approve"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            <Link to="/manager/showaccounts">
+            <ListItem key={"Approve"}  disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <RemoveRedEyeIcon />
+                </ListItemIcon>
+                <ListItemText primary={"Approve"} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+            </Link>
+            
 
 
 
@@ -213,6 +265,6 @@ export default function MiniDrawer() {
           ))}
         </List> */}
       </Drawer>
-    </Box>
+    </Box></>
   );
 }
