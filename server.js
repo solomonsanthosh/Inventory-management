@@ -7,11 +7,17 @@ const cookieParser = require('cookie-parser');
 const userRoute = require("./routes/User");
 const productRoute = require("./routes/product");
 const cors = require('cors')
-app.use(cookieParser())
-app.use(cors())
 const ticketRoute = require("./routes/ticket");
 const storeRoute = require("./routes/store");
 
+app.use(cookieParser())
+const corsOptions ={
+    origin:true, 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use("/", userRoute);
 app.use("/", productRoute);

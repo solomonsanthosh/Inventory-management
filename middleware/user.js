@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-exports.checkLogin = (req,res,next) => {
+exports.checkLoginMiddleware = (req,res,next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(" ")[1];
 

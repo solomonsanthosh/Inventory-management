@@ -5,10 +5,12 @@ const {
 	postTicketRequest,
 	updateTicketRequest,
 	ticketCheck,
-	getTicketApprove
+	getTicketApprove,
+	getTicketUser
 } = require("../controllers/ticket.controller");
 
 router.get("/gettickets", getTicketRequest);
+router.get("/gettickets/:id", getTicketUser);
 router.get("/getticketapprove", getTicketApprove);
 router.post("/createtickets", postTicketRequest);
 router.put("/updatetickets/:ticket_id", updateTicketRequest);

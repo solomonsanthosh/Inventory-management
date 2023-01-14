@@ -16,6 +16,15 @@ exports.getTicketRequest = async (req, res) => {
     console.log(error);
   }
 };
+exports.getTicketUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { name: req.params.id } });
+    const tickets = await Ticket.findAll({where:{user_id:user.id}});
+    res.json(tickets);
+  } catch (error) {
+    console.log(error);
+  }
+};
 exports.getTicketApprove = async (req, res) => {
   try {
     const tickets = await Ticket.findAll({ where: { status: "APPROVAL" } });
