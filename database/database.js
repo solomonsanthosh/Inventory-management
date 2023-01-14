@@ -20,6 +20,7 @@ db.sequelize = sequelize;
 db.User = require("./modals/user.model")(sequelize, Sequelize.DataTypes);
 db.Products = require("./modals/products.model")(sequelize, Sequelize.DataTypes);
 db.Ticket = require("./modals/ticket.model")(sequelize, Sequelize.DataTypes);
+db.Suggestion = require("./modals/suggestion.model")(sequelize, Sequelize.DataTypes);
 db.Warehouse = require("./modals/warehouse.model")(sequelize, Sequelize.DataTypes);
 db.Store = require("./modals/store.model")(sequelize, Sequelize.DataTypes);
 

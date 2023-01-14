@@ -1,4 +1,3 @@
-const {response} = require("express");
 const {Ticket, Store, Warehouse, Products} = require("../database/database");
 
 exports.getTicketRequest = async (req, res) => {
