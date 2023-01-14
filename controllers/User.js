@@ -6,20 +6,17 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 exports.createAccount = async (req, res) => {
   try {
-    
     const { user } = req.body;
-    bcrypt.hash(user.password, saltRounds, async function (err, hash) {
-      if (err) return res.sendStatus(401);
-      
-      await User.create({
-        id: user.id,
-        name: user.name,
-        password: hash
-      }).then((response) => {
-        console.log(response);
-      });
-    })
+    await User.create({
+      name: user.name,
+      password: user.password,
+    }).then((response) => {
+      console.log(response);
+    });
+    // bcrypt.hash(user.password, saltRounds, async function (err, hash) {
+    //   if (err) return res.sendStatus(401);
 
+    // })
   } catch (error) {
     console.log(error);
   }
@@ -35,21 +32,35 @@ exports.showAccounts = async (req, res) => {
 
 exports.loginAccount = async (req, res) => {
   try {
-    const user = await User.findOne({ where: { id: "12ABC" } });
+    const { user } = req.body;
+    const users = await User.findOne({ where: { name: user.name } });
 
-    const accessToken = jwt.sign(
-      JSON.parse(JSON.stringify(user)),
-      process.env.ACCESSTOKEN
-    );
-    const refreshToken = jwt.sign(
-      JSON.parse(JSON.stringify(user)),
-      process.env.REQUESTTOKEN
-    );
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-    res.json({ accessToken: accessToken });
+    if (users?.dataValues.password == user.password) {
+      const accessToken = jwt.sign(
+        JSON.parse(JSON.stringify(users.dataValues)),
+        process.env.ACCESSTOKEN
+      );
+      const refreshToken = jwt.sign(
+        JSON.parse(JSON.stringify(users.dataValues)),
+        process.env.REQUESTTOKEN
+      );
+      res.cookie("jwt", refreshToken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      console.log('====================================');
+      console.log(accessToken);
+      console.log('====================================');
+      res.json({ accessToken: accessToken , message:"success" });
+
+
+    } else
+    {
+      console.log('====================================');
+      console.log("err");
+      console.log('====================================');
+      res.json({message:"nouser"})
+    }
   } catch (error) {
     console.log(error);
   }
