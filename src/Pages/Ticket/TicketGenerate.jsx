@@ -35,10 +35,12 @@ const TicketGenerate = () => {
 					</div>
 					<div className="flex items-center justify-between">
 						<button
+
+							
 							class="bg-[#298ddf] hover:bg-[#298ddfc0] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 							type="button"
 						>
-							Sign In
+							Generate Ticket
 						</button>
 					</div>
 				</form>

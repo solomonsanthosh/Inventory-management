@@ -1,7 +1,9 @@
 import React,{useState,useEffect} from 'react'
+import { Router } from 'react-router-dom';
 import { login } from '../../Axios/user';
-
+import { useNavigate } from "react-router-dom";
 function FormData() {
+    const navigate  = useNavigate()
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     
@@ -27,6 +29,9 @@ function FormData() {
         login(user).then((res)=>{
             if(res?.data.message == 'success'){
                 localStorage.setItem('jwt',res)
+                navigate('/ticketform')
+                
+            }else {
                 
             }
            
