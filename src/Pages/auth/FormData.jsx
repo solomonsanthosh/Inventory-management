@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
-import { Router } from 'react-router-dom';
-import { login } from '../../Axios/user';
+import { Navigate, Router } from 'react-router-dom';
+import { checkLogin, login } from '../../Axios/user';
 import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 function FormData() {
     const navigate  = useNavigate()
     const [name, setName] = useState('');
@@ -10,8 +11,14 @@ function FormData() {
     const [trigger, setTrigger] = useState(false)
     const [textErr, setTextErr] = useState(null)
       useEffect(() => {
+        if (localStorage.getItem("jwt")) {
+            checkLogin(localStorage.getItem("jwt")).then((res) => {
+              if (res?.status == 200) {
+                navigate('/ticketform')
+              }
+            });
+          }
         
-      
           if(password.length > 0 &&  name.length > 0) {
               setTextErr(false)
           }  else {
@@ -28,7 +35,9 @@ function FormData() {
         }
         login(user).then((res)=>{
             if(res?.data.message == 'success'){
-                localStorage.setItem('jwt',res)
+                
+                localStorage.setItem('jwt',res.data.accessToken)
+                localStorage.setItem('name',name)
                 navigate('/ticketform')
                 
             }else {

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
-import {gettickets} from "../../Axios/ticket";
+import {getticketSingle} from "../../Axios/ticket";
 
 import "./ticketdashboard.css";
 import {useEffect} from "react";
@@ -8,16 +8,13 @@ function TicketDashboard() {
 	const [ticketData, setTicketData] = useState([]);
 
 	useEffect(() => {
-		gettickets().then((response) => {
+		getticketSingle(localStorage.getItem("name")).then((response) => {
 			setTicketData(response);
+			
 		});
-		console.log(ticketData)
-	}, [ticketData]);
+	}, []);
 
-	axios.get("http://localhost:8080/gettickets").then((response) => {
-		setTicketData(response);
-		console.log(ticketData);
-	});
+	
 
 	return (
 		<div className="h-full min-h-screen  bg-[#F5F5F5] ">
