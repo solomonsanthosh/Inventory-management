@@ -1,9 +1,9 @@
 const router = require("express").Router();
 
 const {
-	getSuggestions,
-} = require("../controllers/products.controller");
+	getSuggestions, postSuggestion,
+} = require("../controllers/suggestion.controller");
 
-router.get("/getsuggestions", getSuggestions);
-
+router.get("/getsuggestions/:partno", getSuggestions);
+router.post("/postsuggestion", postSuggestion);
 module.exports = router;

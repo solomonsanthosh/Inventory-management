@@ -9,6 +9,7 @@ const productRoute = require("./routes/product");
 const cors = require('cors')
 const ticketRoute = require("./routes/ticket");
 const storeRoute = require("./routes/store");
+const suggestRoute = require("./routes/suggestion");
 
 app.use(cookieParser())
 const corsOptions ={
@@ -23,6 +24,8 @@ app.use("/", userRoute);
 app.use("/", productRoute);
 app.use("/", storeRoute);
 app.use("/", ticketRoute);
+app.use("/", suggestRoute);
+
 
 app.listen(process.env.PORT, () => {
 	console.log(`server is running at ${process.env.PORT}`);

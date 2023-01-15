@@ -22,16 +22,7 @@ exports.createProducts = async (req, res) => {
 			product_url: "d",
 			product_part_no: "ds",
 		},
-		{
-			product_name: "Sfgasdf",
-			product_url: "dfgadff",
-			product_part_no: "sdfasdf3523",
-		},
-		{
-			product_name: "s",
-			product_url: "d",
-			product_part_no: "ds",
-		},
+		
 	];
 	try {
 		const products = await Products.bulkCreate(bulkProducts);
