@@ -34,7 +34,7 @@ function Manager() {
                 <td>a</td>
                 <td className=" text-[#49b743]">a</td>
               </tr>
-              {tickets?.forEach((ticket) => {
+              {tickets?.map((ticket) => {
                 console.log(ticket);
 
                 return (
