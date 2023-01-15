@@ -1,20 +1,25 @@
 import React, {useState} from "react";
 import axios from "axios";
-import {getticketSingle} from "../../Axios/ticket";
+import {getticketSingle, updateticket} from "../../Axios/ticket";
+import "./ToggleSwitch.css";
 
 import "./ticketdashboard.css";
 import {useEffect} from "react";
 function TicketDashboard() {
 	const [ticketData, setTicketData] = useState([]);
+	const [toggle, setToggle] = useState("");
+	// const [label, setLabel] = useState();
 
 	useEffect(() => {
 		getticketSingle(localStorage.getItem("name")).then((response) => {
-			setTicketData(response);
-			
+			setTicketData(response.data);
 		});
 	}, []);
 
-	
+	const handleChange = (e, id) => {
+		console.log(e, "id", id);
+		updateticket(id, e);
+	};
 
 	return (
 		<div className="h-full min-h-screen  bg-[#F5F5F5] ">
@@ -30,12 +35,22 @@ function TicketDashboard() {
 							<th>Status</th>
 						</thead>
 						<tbody>
-							<tr>
-								<td>01</td>
-								<td>Swrew</td>
-								<td>100</td>
-								<td className=" text-[#49b743]">Closed</td>
-							</tr>
+							{ticketData.map((data) => {
+								return (
+									<tr>
+										<td>{data.ticket_id}</td>
+										<td>{data.product_part_no}</td>
+										<td>{data.product_quantity}</td>
+										<td className="">
+											<ToggleSwitch
+												toggle={data.status}
+												handleChange={handleChange}
+												id={data.ticket_id}
+											/>
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</div>
@@ -43,5 +58,24 @@ function TicketDashboard() {
 		</div>
 	);
 }
+
+const ToggleSwitch = ({toggle, handleChange, id}) => {
+	return (
+		<div className="container">
+			<div className="toggle-switch">
+				<select
+					name=""
+					id=""
+					defaultValue={toggle}
+					onChange={(e) => handleChange(e.target.value, id)}
+				>
+					<option value="CLOSE">CLOSE</option>
+					<option value="OPEN">OPEN</option>
+					<option value="APPROVAL">APPROVAL</option>
+				</select>
+			</div>
+		</div>
+	);
+};
 
 export default TicketDashboard;
