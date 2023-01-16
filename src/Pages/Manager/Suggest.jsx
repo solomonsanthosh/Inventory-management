@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import SideNav from "./SideNav/SideNav";
 import { suggesttickets } from "../../Axios/ticket";
-import { getSuggestion } from "../../Axios/manager";
+import { getSuggestion, sendEmail } from "../../Axios/manager";
 function Suggest() {
   const [tickets, setTickets] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
@@ -19,15 +19,19 @@ function Suggest() {
       setSuppliers(res.data);
     });
   };
+  const handleEmail = (email, product) => {
+    console.log(email);
+    sendEmail(email, product).then(() => {
+      setOpen(false);
+      alert("email sent successfully");
+    });
+  };
   function changeBackground(e) {
-    e.target.style.background = '#20c88a';
+    e.target.style.background = "#20c88a";
   }
   function changeBackgroundRemove(e) {
-    e.target.style.background = '#e9e9e9';
-    
-
+    e.target.style.background = "#e9e9e9";
   }
-
 
   return (
     <>
@@ -36,17 +40,28 @@ function Suggest() {
           <div className="w-[50%] bg-[#f5f5f5] flex flex-col p-4 rounded max-h-[350px] ">
             <h1 className="p-1 font-bold text-xl">Suppliers</h1>
             <div className="w-full overflow-y-scroll">
-            {suppliers?.map((supplier) => (
-              <div className="p-3 shadow-md mb-4 flex justify-between" >
-               <div>
-                <span className="font-semibold">Company Name:   </span>{"   "}
-                {supplier.company_id}
-
-               </div>
-                <button onMouseEnter={changeBackground}  onMouseLeave={changeBackgroundRemove} className="bg-[#e9e9e9] p-2 rounded-md">Send Mail</button>
-              </div>
-            ))}
-
+              {suppliers?.map((supplier) => (
+                <div className="p-3 shadow-md mb-4 flex justify-between">
+                  <div>
+                    <span className="font-semibold">Company Name: </span>
+                    {"   "}
+                    {supplier.company_id}
+                  </div>
+                  <button
+                    onMouseEnter={changeBackground}
+                    onMouseLeave={changeBackgroundRemove}
+                    onClick={() =>
+                      handleEmail(
+                        supplier.company_email,
+                        supplier.product_part_no
+                      )
+                    }
+                    className="bg-[#e9e9e9] p-2 rounded-md"
+                  >
+                    Send Mail
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>
