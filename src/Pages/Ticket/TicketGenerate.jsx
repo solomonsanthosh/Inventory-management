@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { ticketgenerate } from "../../Axios/ticket";
-
+import SideNav from '../../components/SideNav/SideNav'
 const TicketGenerate = () => {
   const [part, setPart] = useState("");
   const [quantity, setQuantity] = useState();
@@ -16,7 +16,8 @@ const TicketGenerate = () => {
     }
   };
   return (
-    <div className="w-full flex flex-col justify-center items-center min-h-screen">
+    <div className="w-full flex flex-col justify-center items-center min-h-screen bg-[#F5F5F5]">
+     <SideNav/>
       <div className="w-full flex flex-col justify-center items-center max-w-xs">
         <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
