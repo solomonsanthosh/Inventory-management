@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import axios from "axios";
 import {getticketSingle, updateticket} from "../../Axios/ticket";
 import "./ToggleSwitch.css";
-
+import SideNav from '../../components/SideNav/SideNav'
 import "./ticketdashboard.css";
 import {useEffect} from "react";
 function TicketDashboard() {
@@ -23,9 +23,10 @@ function TicketDashboard() {
 
 	return (
 		<div className="h-full min-h-screen  bg-[#F5F5F5] ">
+			<SideNav/>
 			<div className="w-full pl-[65px]">
 				<div className="dash">
-					<h1 className="title">Dashboard</h1>
+					<h1 className="title">Ticket Status</h1>
 
 					<table>
 						<thead>
@@ -64,6 +65,7 @@ const ToggleSwitch = ({toggle, handleChange, id}) => {
 		<div className="container">
 			<div className="toggle-switch">
 				<select
+					className="bg-[#F5F5F5]"
 					name=""
 					id=""
 					defaultValue={toggle}
