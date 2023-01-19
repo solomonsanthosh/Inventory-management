@@ -7,9 +7,9 @@ const sendEmail = async (req, res) => {
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        // https://youtu.be/thAP7Fvrql4  <-- refer this video
-        user: "abcd@gmail.com", // enter you mail here
-        pass: "1234567890", // enter yor password but not the direct password app password
+        
+        user: "solomonsanthosh2064@gmail.com", // enter you mail here
+        pass: "wduehhqcrobapkov", // enter yor password but not the direct password app password
       },
       secure: false,
       tls: {
