@@ -38,10 +38,10 @@ function SignInContent() {
   return (
     <div className="sign-in h-full w-4/5 sm:w-full flex justify-center items-center">
       <div className="flex flex-col items-center text-center h-3/5">
-        <h1 className="text-highlight text-4xl mb-5 font-semibold">
+        <h1 className="text-[#3d90c0] text-4xl mb-5 font-semibold">
           Login
         </h1>
-        <hr className=" border-highlight w-20 mb-10 border-t-8" />
+        <hr className=" border-[#3d90c0] w-20 mb-10 border-t-8" />
         <FormData />
       </div>
     </div>
