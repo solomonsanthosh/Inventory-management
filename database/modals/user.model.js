@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		role: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 	});
 	// User.sync({ force: true }).then(() => console.log('USER MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
 	return User;

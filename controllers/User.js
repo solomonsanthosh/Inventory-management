@@ -7,9 +7,11 @@ const saltRounds = 10;
 exports.createAccount = async (req, res) => {
   try {
     const { user } = req.body;
+    
     await User.create({
       name: user.name,
       password: user.password,
+      role:user.role
     }).then((response) => {
       console.log(response);
     });
@@ -33,6 +35,7 @@ exports.showAccounts = async (req, res) => {
 exports.loginAccount = async (req, res) => {
   try {
     const { user } = req.body;
+    console.log(user,'user');
     const users = await User.findOne({ where: { name: user.name } });
 
     if (users?.dataValues.password == user.password) {
@@ -45,7 +48,7 @@ exports.loginAccount = async (req, res) => {
         process.env.REQUESTTOKEN
       );
       
-      return res.cookie('jwt', refreshToken, { httpOnly: false, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 }).json({ accessToken: accessToken , message:"success" });
+      return res.cookie('jwt', refreshToken, { httpOnly: false, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 }).json({ user:users, accessToken: accessToken , message:"success" });
       
 
     } else
