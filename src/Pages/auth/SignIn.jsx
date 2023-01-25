@@ -17,9 +17,7 @@ function SignIn() {
     <div className="h-screen bg-bgWhite flex justify-center items-center">
       <div className=" h-3/4 w-9/12 rounded-2xl shadow-2xl flex overflow-hidden">
         <SignInContent  />
-        <SignInLoginInSideContent
-          
-        />
+        <SignInLoginInSideContent/>
       </div>
     </div>
   );
@@ -38,7 +36,7 @@ function SignIn() {
 
 function SignInContent() {
   return (
-    <div className="sign-in h-full w-4/5 flex justify-center items-center">
+    <div className="sign-in h-full w-4/5 sm:w-full flex justify-center items-center">
       <div className="flex flex-col items-center text-center h-3/5">
         <h1 className="text-[#3d90c0] text-4xl mb-5 font-semibold">
           Login
@@ -53,7 +51,7 @@ function SignInContent() {
 function SignInLoginInSideContent(props) {
   
   return (
-    <div className="h-full w-2/5 bg-[#3d90c0] flex justify-center items-center">
+    <div className="h-full w-2/5 bg-highlight flex justify-center items-center sm:hidden">
       <div className="text-center flex flex-col items-center">
         <h1 className="text-white text-4xl mb-5 font-semibold">Hello!</h1>
         <hr className=" border-white w-20 mb-10 border-t-8" />
