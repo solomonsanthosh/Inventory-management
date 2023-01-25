@@ -28,22 +28,26 @@ function Manager() {
               <th>Status</th>
             </thead>
             <tbody>
-              <tr>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td className=" text-[#49b743]">a</td>
-              </tr>
+              
               {tickets?.map((ticket) => {
                 console.log(ticket);
 
                 return (
                   <tr>
-                    <td>a</td>
-                    <td>{ticket.status}</td>
+                    <td>{ticket.ticket_id}</td>
+                    
                     <td>{ticket.product_part_no}</td>
                     <td>{ticket.product_quantity}</td>
-                    {/* <td className=" text-[#49b743]">{ticket.status}</td> */}
+                    <td >
+                      {ticket.status == 'OPEN' ?
+                        (<div className="text-[#FF3131] font-bold p-2 rounded-md ">
+                        {ticket.status}
+                        </div>):
+                     
+                      (<div className="text-[#4CBB17] font-bold p-2 rounded-md ">
+                      {ticket.status}
+                      </div>)}
+                     </td>
                   </tr>
                 );
               })}

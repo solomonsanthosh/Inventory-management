@@ -36,13 +36,19 @@ function FormData() {
       password: password,
     };
     login(user).then((res) => {
-      if (res?.data.message == "success") {
-        localStorage.setItem("jwt", res.data.accessToken);
-        localStorage.setItem("name", name);
-        navigate("/ticketform");
+      console.log(res);
+      if(res?.data.user.role == "admin"){
+        navigate('/manager')
       } else {
-        
-        setMsg('Invalid credentials')
+
+        if (res?.data.message == "success") {
+          localStorage.setItem("jwt", res.data.accessToken);
+          localStorage.setItem("name", name);
+          navigate("/ticketform");
+        } else {
+          
+          setMsg('Invalid credentials')
+        }
       }
     });
   };

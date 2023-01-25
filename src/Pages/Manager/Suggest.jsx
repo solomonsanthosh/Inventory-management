@@ -105,6 +105,7 @@ const Card = ({ticket, handleSuggest}) => {
 					<p>{ticket.product_quantity}</p>
 				</div>
 				<Button
+          color = 'success'
 					variant="outlined"
 					onClick={() => handleSuggest(ticket.product_part_no)}
 				>
