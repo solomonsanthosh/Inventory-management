@@ -10,6 +10,7 @@ import TicketDashboard from "./Pages/Ticket/TicketDashboard";
 import { useState, useEffect } from "react";
 import { checkLogin } from "./Axios/user";
 
+
 function App() {
   const [user, setUser] = useState(false);
   // useEffect(() => {

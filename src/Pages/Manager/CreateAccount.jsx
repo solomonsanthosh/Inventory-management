@@ -24,7 +24,8 @@ const CreateAccount = ({setOpenModel}) => {
     const user = {
 
       name:name,
-      password: password
+      password: password,
+      role:"user"
     }
     createAccountAxios(user)
     setOpenModel(false);

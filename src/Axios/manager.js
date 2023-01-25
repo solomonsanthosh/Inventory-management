@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const createAccountAxios = async (user) => {
-  return await axios.post(`${process.env.REACT_APP_BASE_URL}/create`, {
+  console.log('user',user);
+  return await axios.post(`http://localhost:8080/create`, {
     user: user,
   });
 };
