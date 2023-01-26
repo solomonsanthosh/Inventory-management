@@ -16,6 +16,7 @@ exports.getTicketRequest = async (req, res) => {
 		console.log(error);
 	}
 };
+
 exports.getTicketUser = async (req, res) => {
 	try {
 		const user = await User.findOne({where: {name: req.params.id}});
@@ -33,6 +34,7 @@ exports.getTicketApprove = async (req, res) => {
 		console.log(error);
 	}
 };
+
 exports.postTicketRequest = async (req, res) => {
 	try {
 		const {part_no, quantity, name} = req.body;
@@ -51,42 +53,72 @@ exports.postTicketRequest = async (req, res) => {
 		const getWarehouse = await Warehouse.findOne({
 			where: {product_part_no: part_no},
 		});
-		const storeTotal = getStore.dataValues.product_limit;
+		// const storeTotal = getStore.dataValues.product_limit;
+		// const warehouseTotal = getWarehouse.dataValues.product_quantity;
+
+		// if (getStore.dataValues.product_quantity >= quantity) {
+		// 	const updatedValueStore =
+		// 		getStore.dataValues.product_quantity - quantity;
+
+		// 	await Store.update(
+		// 		{product_quantity: updatedValueStore},
+		// 		{
+		// 			where: {product_part_no: part_no},
+		// 		}
+		// 	);
+		// } else if (getWarehouse.dataValues.product_quantity >= quantity) {
+		// 	const updatedValueWarehouse =
+		// 		warehouseTotal -
+		// 		(storeTotal - getStore.dataValues.product_quantity);
+		// 	const updatedValueStore = storeTotal - quantity;
+
+		// 	await Warehouse.update(
+		// 		{product_quantity: updatedValueWarehouse},
+		// 		{
+		// 			where: {product_part_no: part_no},
+		// 		}
+		// 	);
+		// 	await Store.update(
+		// 		{product_quantity: updatedValueStore},
+		// 		{
+		// 			where: {product_part_no: part_no},
+		// 		}
+		// 	);
+		// } else {
+		// 	await Ticket.update(
+		// 		{status: "APPROVAL"},
+		// 		{where: {ticket_id: ticket.ticket_id}}
+		// 	);
+		// }
+
+		const storeLimit = getStore.dataValues.product_limit;
+		const storeTotal = getStore.dataValues.product_quantity;
+		const warehouseLimit = getWarehouse.dataValues.product_limit;
 		const warehouseTotal = getWarehouse.dataValues.product_quantity;
 
-		if (getStore.dataValues.product_quantity >= quantity) {
-			const updatedValueStore =
-				getStore.dataValues.product_quantity - quantity;
-
+		if (quantity >= storeTotal && quantity >= warehouseTotal) {
+			await Ticket.update(
+				{status: "APPROVAL"},
+				{where: {ticket_id: ticket.ticket_id}}
+			);
+		} else if (quantity <= storeTotal) {
+			const updatedStoreTotal = storeTotal - quantity;
 			await Store.update(
-				{product_quantity: updatedValueStore},
+				{product_quantity: updatedStoreTotal},
 				{
 					where: {product_part_no: part_no},
 				}
 			);
-		} else if (getWarehouse.dataValues.product_quantity >= quantity) {
-			const updatedValueWarehouse =
-				warehouseTotal -
-				(storeTotal - getStore.dataValues.product_quantity);
-			const updatedValueStore = storeTotal - quantity;
-
+		} else if (quantity >= storeTotal && quantity <= warehouseTotal) {
+			const updatedWarehouseTotal = warehouseTotal - quantity;
 			await Warehouse.update(
 				{product_quantity: updatedValueWarehouse},
 				{
 					where: {product_part_no: part_no},
 				}
 			);
-			await Store.update(
-				{product_quantity: updatedValueStore},
-				{
-					where: {product_part_no: part_no},
-				}
-			);
 		} else {
-			await Ticket.update(
-				{status: "APPROVAL"},
-				{where: {ticket_id: ticket.ticket_id}}
-			);
+			console.log("Some error occurs");
 		}
 	} catch (error) {
 		console.log(error);
