@@ -54,28 +54,10 @@ router.post("/warehousecreate", async (req, res) => {
 		const bulkProducts = [
 			{
 				product_id: "347e52dc-49de-4b69-b9ef-71a2c5bcc392",
-				product_quantity: 50,
-				product_part_no: "sdfasdf3523",
+				product_quantity: 100,
+				product_part_no: "part1",
 				product_limit: 200,
-			},
-			{
-				product_id: "9828334b-2a70-46de-891f-55fc9375ee1c",
-				product_quantity: 50,
-				product_part_no: "ds",
-				product_limit: 200,
-			},
-			{
-				product_id: "f00442a3-5f3c-4edd-a35b-136bad078681",
-				product_quantity: 50,
-				product_part_no: "sdfasdf3523",
-				product_limit: 200,
-			},
-			{
-				product_id: "d58929aa-fc8d-4f3b-b4ed-1e05139496b3",
-				product_quantity: 50,
-				product_part_no: "ds",
-				product_limit: 200,
-			},
+			}
 		];
 		await Warehouse.bulkCreate(bulkProducts).then((response) => {
 			console.log(response);
