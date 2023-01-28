@@ -1,15 +1,18 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { useSelector } from "react-redux";
 const ManagerRoute = () => {
+  const state = useSelector((state) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   useEffect(() => {
-    let token = localStorage.getItem("role");
-    console.log(token);
-    if (token == "admin") {
+    let user = state.user;
+
+    if (user.role == "admin") {
       setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
     }
-  }, []);
+  }, [state]);
 
   if (isAuthenticated === null) {
     return <></>;

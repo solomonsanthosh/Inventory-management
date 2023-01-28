@@ -5,16 +5,36 @@ import "./ToggleSwitch.css";
 import SideNav from '../../components/SideNav/SideNav'
 import "./ticketdashboard.css";
 import {useEffect} from "react";
+import { useSelector } from "react-redux";
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 function TicketDashboard() {
-	const [ticketData, setTicketData] = useState([]);
+	const user = useSelector((state)=>state.auth.user)
+		const [ticketData, setTicketData] = useState([]);
 	const [toggle, setToggle] = useState("");
+	const [showTicket,setShowTicket] = useState([]);
+	const [pagination, setPagination] = useState([]);
+	const [page, setPage] = useState(1);
+   
+  
+  
 	// const [label, setLabel] = useState();
 
 	useEffect(() => {
-		getticketSingle(localStorage.getItem("name")).then((response) => {
-			setTicketData(response.data);
+		getticketSingle(user.id).then((res) => {
+			setTicketData(res.data);
+			setPagination(calculateRange(res.data, 10));
+		
+		setShowTicket(sliceData(res.data, page, 10))
 		});
 	}, []);
+	const __handleChangePage = (new_page) => {
+  
+		setPage(new_page);
+		console.log(new_page);
+		
+		setShowTicket(sliceData(ticketData, new_page, 10));
+		
+	  };
 
 	const handleChange = (e, id) => {
 		console.log(e, "id", id);
@@ -36,7 +56,7 @@ function TicketDashboard() {
 							<th>Status</th>
 						</thead>
 						<tbody>
-							{ticketData.map((data) => {
+							{showTicket.map((data) => {
 								return (
 									<tr>
 										<td>{data.ticket_id}</td>
@@ -54,6 +74,23 @@ function TicketDashboard() {
 							})}
 						</tbody>
 					</table>
+					{ticketData.length !== 0 ? (
+			<div className="dashboard-content-footer">
+			  {pagination.map((item, index) => (
+				<span
+				  key={index}
+				  className={item === page ? "active-pagination" : "pagination"}
+				  onClick={() => __handleChangePage(item)}
+				>
+				  {item}
+				</span>
+			  ))}
+			</div>
+		  ) : (
+			<div className="dashboard-content-footer">
+			  <span className="empty-table">No data</span>
+			</div>
+		  )}
 				</div>
 			</div>
 		</div>

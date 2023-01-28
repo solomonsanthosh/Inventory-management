@@ -1,16 +1,19 @@
 import {useState} from "react";
+import { useSelector } from "react-redux";
 import {Navigate, useNavigate} from "react-router-dom";
 import {ticketgenerate} from "../../Axios/ticket";
 import SideNav from "../../components/SideNav/SideNav";
+
 const TicketGenerate = () => {
+	const user = useSelector((state)=>state.auth.user)
 	const navigate = useNavigate();
 
 	const [part, setPart] = useState("");
 	const [quantity, setQuantity] = useState();
 
 	const generateTicket = () => {
-		if (localStorage.getItem("name")) {
-			// ticketgenerate(part, quantity, localStorage.getItem("name"))
+		if (part.length>0 && quantity.length>0) {
+			ticketgenerate(part, quantity, user.id)
 			navigate("/ticketdashboard");
 		} else {
 			console.log("error");

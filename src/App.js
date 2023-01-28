@@ -32,14 +32,14 @@ function App() {
 
           <Route path="/local" element={<LocalStorage />}></Route>
           {/* manager */}
-          {/* <Route element={<ManagerRoute />}>
+          <Route element={<ManagerRoute />}>
             <Route path="/manager" element={<Manager />}></Route>
             <Route
               path="/manager/showaccounts"
               element={<ShowAccounts />}
             ></Route>
             <Route path="/manager/suggest" element={<Suggest />}></Route>
-          </Route> */}
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
