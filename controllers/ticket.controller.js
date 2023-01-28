@@ -10,7 +10,7 @@ const {
 
 exports.getTicketRequest = async (req, res) => {
 	try {
-		const tickets = await Ticket.findAll();
+		const tickets = await Ticket.findAll({});
 		res.json(tickets);
 	} catch (error) {
 		console.log(error);
@@ -18,9 +18,15 @@ exports.getTicketRequest = async (req, res) => {
 };
 exports.getTicketUser = async (req, res) => {
 	try {
-		const user = await User.findOne({where: {name: req.params.id}});
-		const tickets = await Ticket.findAll({where: {user_id: user.id}});
-		res.json(tickets);
+		if(req.params.id == 'local'){
+			const tickets = await Ticket.findAll({where: {status: 'OPEN'}});
+			res.json(tickets);
+		} else {
+			
+			const user = await User.findOne({where: {name: req.params.id}});
+			const tickets = await Ticket.findAll({where: {user_id: user.id}});
+			res.json(tickets);
+		}
 	} catch (error) {
 		console.log(error);
 	}
