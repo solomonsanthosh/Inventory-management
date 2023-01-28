@@ -14,6 +14,6 @@ router.get("/gettickets/:id", getTicketUser);
 router.get("/getticketapprove", getTicketApprove);
 router.post("/createtickets", postTicketRequest);
 router.put("/updatetickets/:ticketid", updateTicketRequest);
-router.get("/ticketcheck/:ticket_id", ticketCheck);
+// router.get("/ticketcheck/:ticket_id", ticketCheck);
 
 module.exports = router;
