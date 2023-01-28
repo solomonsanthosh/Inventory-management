@@ -19,11 +19,10 @@ exports.getTicketRequest = async (req, res) => {
 
 exports.getTicketUser = async (req, res) => {
 	try {
-		if(req.params.id == 'local'){
-			const tickets = await Ticket.findAll({where: {status: 'OPEN'}});
+		if (req.params.id == "local") {
+			const tickets = await Ticket.findAll({where: {status: "OPEN"}});
 			res.json(tickets);
 		} else {
-			
 			const user = await User.findOne({where: {name: req.params.id}});
 			const tickets = await Ticket.findAll({where: {user_id: user.id}});
 			res.json(tickets);
@@ -37,6 +36,39 @@ exports.getTicketApprove = async (req, res) => {
 	try {
 		const tickets = await Ticket.findAll({where: {status: "APPROVAL"}});
 		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+exports.postStore = async (req, res) => {
+	try {
+		const id = req.params.product_id;
+		const product = await Products.findOne({where: {product_id: id}});
+		const part_no = product.dataValues.product_part_no;
+
+		const store = await Store.findOne({where: {product_part_no: part_no}});
+		const warehouse = await Warehouse.findOne({
+			where: {product_part_no: part_no},
+		});
+
+		const storeLimit = getStore.dataValues.product_limit;
+		const storeTotal = getStore.dataValues.product_quantity;
+		const warehouseLimit = getWarehouse.dataValues.product_limit;
+		const warehouseTotal = getWarehouse.dataValues.product_quantity;
+		const difference = storeLimit - storeTotal;
+
+		if (storeTotal <= storeLimit && warehouseTotal >= difference) {
+			await Store.update(
+				{product_quantity: difference + storeTotal},
+				{where: {product_part_no: part_no}}
+			);
+			await Warehouse.update(
+				{product_quantity: warehouseTotal - difference},
+				{where: {product_part_no: part_no}}
+			);
+		}
+		return "Success";
 	} catch (error) {
 		console.log(error);
 	}
@@ -75,9 +107,7 @@ exports.postTicketRequest = async (req, res) => {
 			const updatedStoreTotal = storeTotal - quantity;
 			await Store.update(
 				{product_quantity: updatedStoreTotal},
-				{
-					where: {product_part_no: part_no},
-				}
+				{where: {product_part_no: part_no}}
 			);
 		} else if (quantity >= storeTotal && quantity <= warehouseTotal) {
 			if (storeLimit <= warehouseTotal) {
