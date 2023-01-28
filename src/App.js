@@ -5,42 +5,41 @@ import Suggest from "./Pages/Manager/Suggest";
 import SignIn from "./Pages/Auth/SignIn";
 import CreateAccount from "./Pages/Manager/CreateAccount";
 import ShowAccounts from "./Pages/Manager/ShowAccounts";
-import LocalStorage from './Pages/Manager/LocalStorage'
+import LocalStorage from "./Pages/Manager/LocalStorage";
 import TicketGenerate from "./Pages/Ticket/TicketGenerate";
 import TicketDashboard from "./Pages/Ticket/TicketDashboard";
 import { useState, useEffect } from "react";
-import { checkLogin } from "./Axios/user";
-
+import ProtectedRoute from "./utils/ProtectedRoute";
+import ManagerRoute from "./utils/ManagerRoute";
 
 function App() {
   const [user, setUser] = useState(false);
-  // useEffect(() => {
-  // 	if (localStorage.getItem("jwt")) {
-  // 		checkLogin(localStorage.getItem("jwt")).then((res) => {
-  // 			if (res?.status == 200) {
-  // 				setUser(true);
-  // 			}
-  // 		});
-  // 	}
-  // }, [user]);
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          {/* {user ? ( */}
-          <Route path="/ticketform" element={<TicketGenerate />}></Route>
-          {/* ) : null} */}
-          <Route path="/ticketdashboard" element={<TicketDashboard />}></Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<TicketGenerate />}></Route>
 
-          <Route path="/" element={<SignIn />}></Route>
-          <Route path="/manager" element={<Manager />}></Route>
+            <Route
+              path="/ticketdashboard"
+              element={<TicketDashboard />}
+            ></Route>
+          </Route>
+
+          <Route path="/login" element={<SignIn />}></Route>
+
           <Route path="/local" element={<LocalStorage />}></Route>
-          <Route
-            path="/manager/showaccounts"
-            element={<ShowAccounts />}
-          ></Route>
-          <Route path="/manager/suggest" element={<Suggest />}></Route>
+          {/* manager */}
+          {/* <Route element={<ManagerRoute />}>
+            <Route path="/manager" element={<Manager />}></Route>
+            <Route
+              path="/manager/showaccounts"
+              element={<ShowAccounts />}
+            ></Route>
+            <Route path="/manager/suggest" element={<Suggest />}></Route>
+          </Route> */}
         </Routes>
       </BrowserRouter>
     </>

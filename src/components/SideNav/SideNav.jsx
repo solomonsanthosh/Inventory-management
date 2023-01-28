@@ -143,7 +143,7 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-            <Link to="/ticketform">
+            <Link to="/">
             <ListItem key={"Ticket"}  disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
