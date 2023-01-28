@@ -5,6 +5,7 @@ import Suggest from "./Pages/Manager/Suggest";
 import SignIn from "./Pages/Auth/SignIn";
 import CreateAccount from "./Pages/Manager/CreateAccount";
 import ShowAccounts from "./Pages/Manager/ShowAccounts";
+import LocalStorage from './Pages/Manager/LocalStorage'
 import TicketGenerate from "./Pages/Ticket/TicketGenerate";
 import TicketDashboard from "./Pages/Ticket/TicketDashboard";
 import { useState, useEffect } from "react";
@@ -34,6 +35,7 @@ function App() {
 
           <Route path="/" element={<SignIn />}></Route>
           <Route path="/manager" element={<Manager />}></Route>
+          <Route path="/local" element={<LocalStorage />}></Route>
           <Route
             path="/manager/showaccounts"
             element={<ShowAccounts />}

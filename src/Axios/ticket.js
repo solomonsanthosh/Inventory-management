@@ -4,6 +4,7 @@ export const gettickets = async () => {
 	return await axios.get(`${process.env.REACT_APP_BASE_URL}/gettickets`);
 };
 
+
 export const getticketSingle = async (id) => {
 	return await axios.get(
 		`${process.env.REACT_APP_BASE_URL}/gettickets/${id}`

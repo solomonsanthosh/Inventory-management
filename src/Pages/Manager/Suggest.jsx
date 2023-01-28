@@ -7,21 +7,24 @@ function Suggest() {
 	const [tickets, setTickets] = useState([]);
 	const [suppliers, setSuppliers] = useState([]);
 	const [open, setOpen] = useState(false);
+  const [quantity,setQuantity] =  useState();
 	useEffect(() => {
 		suggesttickets().then((res) => {
 			setTickets(res.data);
 		});
 	}, []);
 
-  const handleSuggest = (partno) => {
+  const handleSuggest = (partno,qty) => {
     setOpen(true);
-    getSuggestion(partno).then((res) => {
+    setQuantity(qty);
+    getSuggestion(partno,quantity).then((res) => {
       setSuppliers(res.data);
     });
   };
-  const handleEmail = (email, product) => {
-    console.log(email);
-    sendEmail(email, product).then(() => {
+  const handleEmail = (id, product) => {
+
+  
+    sendEmail(id, product,quantity).then(() => {
       setOpen(false);
       alert("email sent successfully");
     });
@@ -45,14 +48,14 @@ function Suggest() {
                   <div>
                     <span className="font-semibold">Company Name: </span>
                     {"   "}
-                    {supplier.company_id}
+                    {supplier.company_name}
                   </div>
                   <button
                     onMouseEnter={changeBackground}
                     onMouseLeave={changeBackgroundRemove}
                     onClick={() =>
                       handleEmail(
-                        supplier.company_email,
+                        supplier.company_id,
                         supplier.product_part_no
                       )
                     }
@@ -107,7 +110,7 @@ const Card = ({ticket, handleSuggest}) => {
 				<Button
           color = 'success'
 					variant="outlined"
-					onClick={() => handleSuggest(ticket.product_part_no)}
+					onClick={() => handleSuggest(ticket.product_part_no,ticket.product_quantity)}
 				>
 					<h1 className="text-[.95rem] font-bold">{ticket.status}</h1>
 				</Button>

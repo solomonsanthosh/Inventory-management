@@ -51,7 +51,7 @@ function SignInContent() {
 function SignInLoginInSideContent(props) {
   
   return (
-    <div className="h-full w-2/5 bg-highlight flex justify-center items-center sm:hidden">
+    <div className="h-full w-2/5  flex justify-center items-center sm:hidden bg-[#3d90c0]">
       <div className="text-center flex flex-col items-center">
         <h1 className="text-white text-4xl mb-5 font-semibold">Hello!</h1>
         <hr className=" border-white w-20 mb-10 border-t-8" />

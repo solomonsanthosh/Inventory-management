@@ -39,6 +39,8 @@ function FormData() {
       console.log(res);
       if(res?.data.user.role == "admin"){
         navigate('/manager')
+      } else if(res?.data.user.role == "local") {
+        navigate('/local')
       } else {
 
         if (res?.data.message == "success") {
