@@ -42,6 +42,39 @@ exports.getTicketApprove = async (req, res) => {
   }
 };
 
+exports.postStore = async (req, res) => {
+  try {
+    const id = req.params.product_id;
+    const product = await Products.findOne({ where: { product_id: id } });
+    const part_no = product.dataValues.product_part_no;
+
+    const store = await Store.findOne({ where: { product_part_no: part_no } });
+    const warehouse = await Warehouse.findOne({
+      where: { product_part_no: part_no },
+    });
+
+    const storeLimit = getStore.dataValues.product_limit;
+    const storeTotal = getStore.dataValues.product_quantity;
+    const warehouseLimit = getWarehouse.dataValues.product_limit;
+    const warehouseTotal = getWarehouse.dataValues.product_quantity;
+    const difference = storeLimit - storeTotal;
+
+    if (storeTotal <= storeLimit && warehouseTotal >= difference) {
+      await Store.update(
+        { product_quantity: difference + storeTotal },
+        { where: { product_part_no: part_no } }
+      );
+      await Warehouse.update(
+        { product_quantity: warehouseTotal - difference },
+        { where: { product_part_no: part_no } }
+      );
+    }
+    return "Success";
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 exports.postTicketRequest = async (req, res) => {
   try {
     const { part_no, quantity, id } = req.body;
@@ -61,11 +94,6 @@ exports.postTicketRequest = async (req, res) => {
       where: { product_part_no: part_no },
     });
 
-    const storeLimit = getStore.dataValues.product_limit;
-    const storeTotal = getStore.dataValues.product_quantity;
-    const warehouseLimit = getWarehouse.dataValues.product_limit;
-    const warehouseTotal = getWarehouse.dataValues.product_quantity;
-
     if (quantity >= storeTotal && quantity >= warehouseTotal) {
       await Ticket.update(
         { status: "APPROVAL" },
@@ -75,9 +103,7 @@ exports.postTicketRequest = async (req, res) => {
       const updatedStoreTotal = storeTotal - quantity;
       await Store.update(
         { product_quantity: updatedStoreTotal },
-        {
-          where: { product_part_no: part_no },
-        }
+        { where: { product_part_no: part_no } }
       );
     } else if (quantity >= storeTotal && quantity <= warehouseTotal) {
       if (storeLimit <= warehouseTotal) {
