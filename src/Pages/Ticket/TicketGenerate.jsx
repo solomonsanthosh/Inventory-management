@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
-import { useSelector } from "react-redux";
+import {useSelector} from "react-redux";
 import {Navigate, useNavigate} from "react-router-dom";
 import {ticketgenerate} from "../../Axios/ticket";
 import {getProducts} from "../../Axios/store";
 import SideNav from "../../components/SideNav/SideNav";
 
 const TicketGenerate = () => {
-	const user = useSelector((state)=>state.auth.user)
+	const user = useSelector((state) => state.auth.user);
 	const navigate = useNavigate();
 
 	const [part, setPart] = useState("");
@@ -14,8 +14,8 @@ const TicketGenerate = () => {
 	const [allproducts, setAllProducts] = useState([]);
 
 	const generateTicket = () => {
-		if (part.length>0 && quantity.length>0) {
-			ticketgenerate(part, quantity, user.id)
+		if (part.length > 0 && quantity.length > 0) {
+			ticketgenerate(part, quantity, user.id);
 			navigate("/ticketdashboard");
 		} else {
 			console.log("error");
@@ -41,29 +41,14 @@ const TicketGenerate = () => {
 						>
 							Product Part No
 						</label>
-						<input
-							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="productPartNo"
-							type="text"
-							placeHolder="1xefhg2345"
-							onChange={(e) => setPart(e.target.value)}
-						/>
-					</div>
-					<div className="mb-4">
-						<label
-							className="block text-gray-700 text-sm font-bold mb-2"
-							htmlFor="productPartNo"
-						>
-							Product Part No
-						</label>
 						<select
-							name=""
-							id=""
+							id="productPartNo"
 							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+							onChange={(e) => setPart(e.target.value)}
 						>
 							{allproducts.map((part_no) => {
 								return (
-									<option value="part1">
+									<option value={part_no.product_part_no}>
 										{part_no.product_part_no}
 									</option>
 								);
