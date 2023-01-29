@@ -2,14 +2,32 @@ import {useState, useEffect} from "react";
 import {Button} from "@mui/material";
 import SideNav from "./SideNav/SideNav";
 import {getAccounts} from "../../Axios/manager";
-
+import { calculateRange, sliceData } from "../../utils/table-pagination";
 const ShowAccounts = () => {
+
 	const [accounts, setAccounts] = useState([]);
+	const [showAcc,setShowAcc] = useState([]);
+  const [pagination, setPagination] = useState([]);
+  const [page, setPage] = useState(1);
+
+
+
 	useEffect(() => {
 		getAccounts().then((res) => {
 			setAccounts(res.data);
+			setPagination(calculateRange(res.data, 10));
+      
+      		setShowAcc(sliceData(res.data, page, 10))
 		});
 	}, []);
+	const __handleChangePage = (new_page) => {
+
+		setPage(new_page);
+		console.log(new_page);
+		
+		setShowAcc(sliceData(accounts, new_page, 10));
+		
+	  };
 
 	return (
 		<div className="h-full min-h-screen bg-[#F5F5F5]">
@@ -20,6 +38,23 @@ const ShowAccounts = () => {
 					{accounts?.map((acc) => {
 						return <Card accounts={acc} />;
 					})}
+					{accounts.length !== 0 ? (
+          <div className="dashboard-content-footer">
+            {pagination.map((item, index) => (
+              <span
+                key={index}
+                className={item === page ? "active-pagination" : "pagination"}
+                onClick={() => __handleChangePage(item)}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+        ) : (
+          <div className="dashboard-content-footer">
+            <span className="empty-table">No data</span>
+          </div>
+        )}
 				</div>
 			</div>
 		</div>

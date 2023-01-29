@@ -1,4 +1,4 @@
-import  React,{useState} from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -16,15 +16,14 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import AddIcon from "@mui/icons-material/Add";
+import HistoryIcon from "@mui/icons-material/History";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
-
-
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -106,96 +105,130 @@ export default function MiniDrawer() {
   const [openModel, setOpenModel] = useState(false);
   return (
     <>
- 
-    <Box sx={{ display: "flex" }} >
-      <CssBaseline />
-      
-      {/* <AppBar  >
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+
+        {/* <AppBar  >
         <Toolbar>
           
           
         </Toolbar>
       </AppBar> */}
-      <Drawer variant="permanent" open={open} className="z-1">
-        <DrawerHeader>
-            
-          {open ? (<IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
+        <Drawer variant="permanent" open={open} className="z-1">
+          <DrawerHeader>
+            {open ? (
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "rtl" ? (
+                  <ChevronRightIcon />
+                ) : (
+                  <ChevronLeftIcon />
+                )}
+              </IconButton>
             ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>):(<IconButton
-        
-        open={open}
-        position="fixed"
-        color="inherit"
-        aria-label="open drawer"
-        onClick={handleDrawerOpen}
-        edge="start"
-        sx={{
-        //   marginRight: 5,
-          ...(open && { display: "none" }),
-        }}
-      >
-        <MenuIcon />
-      </IconButton>)}
-        </DrawerHeader>
-        <Divider />
-        <List>
-            <Link to="/ticketform">
-            <ListItem key={"Ticket"}  disablePadding sx={{ display: "block" }}>
-              <ListItemButton
+              <IconButton
+                open={open}
+                position="fixed"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
                 sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
+                  //   marginRight: 5,
+                  ...(open && { display: "none" }),
                 }}
               >
-                <ListItemIcon
+                <MenuIcon />
+              </IconButton>
+            )}
+          </DrawerHeader>
+          <Divider />
+          <List>
+            <Link to="/">
+              <ListItem key={"Ticket"} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  <ConfirmationNumberIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Generate Ticket"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem></Link>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <ConfirmationNumberIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Generate Ticket"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
             {/* // */}
             <Link to="/ticketdashboard">
-            <ListItem key={"Ticket Status"}  disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
+              <ListItem
+                key={"Ticket Status"}
+                disablePadding
+                sx={{ display: "block" }}
               >
-                <ListItemIcon
-                  
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  <CheckBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Ticket Status"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <CheckBoxIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Ticket Status"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
             </Link>
-           
-            
-
-
-
-          
-        </List>
-        {/* <Divider />
+            <Link to="/tickethistory">
+              <ListItem
+                key={"Ticket Status"}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <HistoryIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Ticket Status"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </List>
+          {/* <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -220,7 +253,8 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List> */}
-      </Drawer>
-    </Box></>
+        </Drawer>
+      </Box>
+    </>
   );
 }

@@ -4,7 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/Dockerfile
+/.dockerignore
+/.vscode
 # testing
 /coverage
 

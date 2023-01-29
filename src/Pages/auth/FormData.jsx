@@ -4,8 +4,10 @@ import { checkLogin, login } from "../../Axios/user";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Button } from "@mui/material";
+import { useSelector, useDispatch } from 'react-redux'
+import { setCredentials } from "../../slice/userSlice";
 function FormData() {
-
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -14,13 +16,13 @@ function FormData() {
   const [textErr, setTextErr] = useState(null);
   const [msg, setMsg] = useState('')
   useEffect(() => {
-    if (localStorage.getItem("jwt")) {
-      checkLogin(localStorage.getItem("jwt")).then((res) => {
-        if (res?.status == 200) {
-          navigate("/ticketform");
-        }
-      });
-    }
+    // if (localStorage.getItem("jwt")) {
+    //   checkLogin(localStorage.getItem("jwt")).then((res) => {
+    //     if (res?.status == 200) {
+    //       navigate("/ticketform");
+    //     }
+    //   });
+    // }
 
     if (password.length > 0 && name.length > 0) {
       setTextErr(false);
@@ -38,15 +40,16 @@ function FormData() {
     login(user).then((res) => {
       console.log(res);
       if(res?.data.user.role == "admin"){
+        dispatch(setCredentials({user:res.data.user}))
         navigate('/manager')
       } else if(res?.data.user.role == "local") {
         navigate('/local')
       } else {
 
         if (res?.data.message == "success") {
-          localStorage.setItem("jwt", res.data.accessToken);
-          localStorage.setItem("name", name);
-          navigate("/ticketform");
+          dispatch(setCredentials({user:res.data.user,token:res.data.accessToken}))
+         
+          navigate("/");
         } else {
           
           setMsg('Invalid credentials')
