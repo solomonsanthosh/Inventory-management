@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import SideNav from "./SideNav/SideNav";
-import "./manager.css";
+import { useNavigate } from "react-router-dom";
+import SideNav from "../Manager/SideNav/SideNav";
+import "../Manager/manager.css";
 import { getticketSingle, postStore } from "../../Axios/ticket";
+import { Button } from "@mui/material";
 function Manager() {
   const [tickets, setTickets] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     getticketSingle("local").then((res) => {
       setTickets(res.data);
@@ -15,16 +18,18 @@ function Manager() {
 
   return (
     <div className="h-full min-h-screen relative bg-[#F5F5F5] ">
-      <div className="floatingButton">
-        <img
-          src="https://img.icons8.com/material-two-tone/30/null/shipping-product.png"
-          alt=""
-        />
-      </div>
       <div className="w-full">
         <div className="dash">
           <h1 className="title">Tickets</h1>
-
+          <div className="pt-5">
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => navigate("/store")}
+            >
+              View Products
+            </Button>
+          </div>
           <table>
             <thead>
               <th>Ticket ID</th>

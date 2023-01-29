@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { getticketSingle, updateticket } from "../../Axios/ticket";
+
+import { getticketHistory } from "../../Axios/ticket";
 import "./ToggleSwitch.css";
 import SideNav from "../../components/SideNav/SideNav";
 import "./ticketdashboard.css";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
-function TicketDashboard() {
+function TicketHistory() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const [ticketData, setTicketData] = useState([]);
@@ -20,7 +20,7 @@ function TicketDashboard() {
   // const [label, setLabel] = useState();
 
   useEffect(() => {
-    getticketSingle(user.id).then((res) => {
+    getticketHistory(user.id).then((res) => {
       setTicketData(res.data);
       setPagination(calculateRange(res.data, 10));
 
@@ -34,18 +34,12 @@ function TicketDashboard() {
     setShowTicket(sliceData(ticketData, new_page, 10));
   };
 
-  const handleChange = (e, id) => {
-    console.log(e, "id", id);
-    updateticket(id, e);
-    window.location.reload(false);
-  };
-
   return (
     <div className="h-full min-h-screen  bg-[#F5F5F5] ">
       <SideNav />
       <div className="w-full pl-[65px]">
         <div className="dash">
-          <h1 className="title">Ticket Status</h1>
+          <h1 className="title">Ticket History</h1>
 
           <table>
             <thead>
@@ -61,13 +55,7 @@ function TicketDashboard() {
                     <td>{data.ticket_id}</td>
                     <td>{data.product_part_no}</td>
                     <td>{data.product_quantity}</td>
-                    <td className="">
-                      <ToggleSwitch
-                        toggle={data.status}
-                        handleChange={handleChange}
-                        id={data.ticket_id}
-                      />
-                    </td>
+                    <td className="">{data.status}</td>
                   </tr>
                 );
               })}
@@ -96,23 +84,4 @@ function TicketDashboard() {
   );
 }
 
-const ToggleSwitch = ({ toggle, handleChange, id }) => {
-  return (
-    <div className="container">
-      <div className="toggle-switch">
-        <select
-          className="bg-[#F5F5F5]"
-          name=""
-          id=""
-          defaultValue={toggle}
-          onChange={(e) => handleChange(e.target.value, id)}
-        >
-          <option value="OPEN">OPEN</option>
-          <option value="CLOSE">CLOSE</option>
-        </select>
-      </div>
-    </div>
-  );
-};
-
-export default TicketDashboard;
+export default TicketHistory;

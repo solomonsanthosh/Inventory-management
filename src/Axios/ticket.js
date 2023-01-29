@@ -7,7 +7,11 @@ export const gettickets = async () => {
 export const getticketSingle = async (id) => {
   return await axios.get(`${process.env.REACT_APP_BASE_URL}/gettickets/${id}`);
 };
-
+export const getticketHistory = async (id) => {
+  return await axios.get(
+    `${process.env.REACT_APP_BASE_URL}/gettickethistory/${id}`
+  );
+};
 export const suggesttickets = async () => {
   return await axios.get(`${process.env.REACT_APP_BASE_URL}/getticketapprove`);
 };
@@ -15,7 +19,9 @@ export const suggesttickets = async () => {
 export const updateticket = async (ticketid, message) => {
   return await axios.put(
     `${process.env.REACT_APP_BASE_URL}/updatetickets/${ticketid}`,
-    { message }
+    {
+      message,
+    }
   );
 };
 
