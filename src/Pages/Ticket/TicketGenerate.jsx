@@ -1,28 +1,37 @@
-import {useState} from "react";
-import { useSelector } from "react-redux";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 import {Navigate, useNavigate} from "react-router-dom";
 import {ticketgenerate} from "../../Axios/ticket";
+import {getProducts} from "../../Axios/store";
 import SideNav from "../../components/SideNav/SideNav";
 
 const TicketGenerate = () => {
-	const user = useSelector((state)=>state.auth.user)
+	const user = useSelector((state) => state.auth.user);
 	const navigate = useNavigate();
 
 	const [part, setPart] = useState("");
 	const [quantity, setQuantity] = useState();
+	const [allproducts, setAllProducts] = useState([]);
 
 	const generateTicket = () => {
-		if (part.length>0 && quantity.length>0) {
-			ticketgenerate(part, quantity, user.id)
+		if (part.length > 0 && quantity.length > 0) {
+			ticketgenerate(part, quantity, user.id);
 			navigate("/ticketdashboard");
 		} else {
 			console.log("error");
 		}
 	};
 
+	useEffect(() => {
+		getProducts().then((response) => {
+			setAllProducts(response.data);
+		});
+	});
+
 	return (
 		<div className="w-full flex flex-col justify-center items-center min-h-screen bg-[#F5F5F5]">
 			<SideNav />
+
 			<div className="w-full flex flex-col justify-center items-center max-w-xs">
 				<form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 					<div className="mb-4">
@@ -32,13 +41,19 @@ const TicketGenerate = () => {
 						>
 							Product Part No
 						</label>
-						<input
-							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+						<select
 							id="productPartNo"
-							type="text"
-							placeHolder="1xefhg2345"
+							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 							onChange={(e) => setPart(e.target.value)}
-						/>
+						>
+							{allproducts.map((part_no) => {
+								return (
+									<option value={part_no.product_part_no}>
+										{part_no.product_part_no}
+									</option>
+								);
+							})}
+						</select>
 					</div>
 					<div className="mb-6">
 						<label
