@@ -4,17 +4,17 @@ import { checkLogin, login } from "../../Axios/user";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Button } from "@mui/material";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../../slice/userSlice";
 function FormData() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
 
   const [trigger, setTrigger] = useState(false);
   const [textErr, setTextErr] = useState(null);
-  const [msg, setMsg] = useState('')
+  const [msg, setMsg] = useState("");
   useEffect(() => {
     // if (localStorage.getItem("jwt")) {
     //   checkLogin(localStorage.getItem("jwt")).then((res) => {
@@ -39,20 +39,21 @@ function FormData() {
     };
     login(user).then((res) => {
       console.log(res);
-      if(res?.data.user.role == "admin"){
-        dispatch(setCredentials({user:res.data.user}))
-        navigate('/manager')
-      } else if(res?.data.user.role == "local") {
-        navigate('/local')
+      if (res?.data.user.role == "admin") {
+        dispatch(setCredentials({ user: res.data.user }));
+        navigate("/manager");
+      } else if (res?.data.user.role == "local") {
+        dispatch(setCredentials({ user: res.data.user }));
+        navigate("/local");
       } else {
-
         if (res?.data.message == "success") {
-          dispatch(setCredentials({user:res.data.user,token:res.data.accessToken}))
-         
+          dispatch(
+            setCredentials({ user: res.data.user, token: res.data.accessToken })
+          );
+
           navigate("/");
         } else {
-          
-          setMsg('Invalid credentials')
+          setMsg("Invalid credentials");
         }
       }
     });
@@ -118,7 +119,7 @@ function FormData() {
         </div>
       </div>
 
-      <h2 >{msg}</h2>
+      <h2>{msg}</h2>
       <Button
         disabled={textErr}
         onClick={submitLogin}

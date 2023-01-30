@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getticketSingle, updateticket } from "../../Axios/ticket";
-import "./ToggleSwitch.css";
+import "../Ticket/ToggleSwitch.css";
 import SideNav from "../../components/SideNav/SideNav";
-import "./ticketdashboard.css";
+import "../Manager/manager.css";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
-function TicketDashboard() {
+function LocalStorageTickets() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const [ticketData, setTicketData] = useState([]);
@@ -20,10 +20,9 @@ function TicketDashboard() {
   // const [label, setLabel] = useState();
 
   useEffect(() => {
-    getticketSingle(user.id).then((res) => {
+    getticketSingle("warehouse").then((res) => {
       setTicketData(res.data);
       setPagination(calculateRange(res.data, 10));
-
       setShowTicket(sliceData(res.data, page, 10));
     });
   }, []);
@@ -73,7 +72,7 @@ function TicketDashboard() {
               })}
             </tbody>
           </table>
-          {ticketData.length > 10 ? (
+          {ticketData.length !== 0 ? (
             <div className="dashboard-content-footer">
               {pagination.map((item, index) => (
                 <span
@@ -85,12 +84,11 @@ function TicketDashboard() {
                 </span>
               ))}
             </div>
-          ) : null}
-          {ticketData.length == 0 ? (
+          ) : (
             <div className="dashboard-content-footer">
               <span className="empty-table">No data</span>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </div>
@@ -116,4 +114,4 @@ const ToggleSwitch = ({ toggle, handleChange, id }) => {
   );
 };
 
-export default TicketDashboard;
+export default LocalStorageTickets;

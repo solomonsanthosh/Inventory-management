@@ -12,16 +12,16 @@ function Manager() {
   useEffect(() => {
     gettickets().then((res) => {
       setTickets(res.data);
-      setPagination(calculateRange(res.data, 10));
+      setPagination(calculateRange(res.data, 8));
 
-      setShowTicket(sliceData(res.data, page, 10));
+      setShowTicket(sliceData(res.data, page, 8));
     });
   }, []);
   const __handleChangePage = (new_page) => {
     setPage(new_page);
     console.log(new_page);
 
-    setShowTicket(sliceData(tickets, new_page, 10));
+    setShowTicket(sliceData(tickets, new_page, 8));
   };
   return (
     <div className="h-full min-h-screen  bg-[#F5F5F5] ">
@@ -55,18 +55,19 @@ function Manager() {
                         <div className=" text-[#FF3131] font-bold p-2 rounded-md ">
                           {ticket.status}
                         </div>
-                      ) : (
+                      ) : null}
+                      {ticket.status == "APPROVAL" ? (
                         <div className="text-[blue] font-bold p-2 rounded-md ">
                           {ticket.status}
                         </div>
-                      )}
+                      ) : null}
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-          {tickets.length !== 0 ? (
+          {tickets.length > 8 ? (
             <div className="dashboard-content-footer">
               {pagination.map((item, index) => (
                 <span
@@ -78,11 +79,12 @@ function Manager() {
                 </span>
               ))}
             </div>
-          ) : (
+          ) : null}
+          {tickets.length == 0 ? (
             <div className="dashboard-content-footer">
               <span className="empty-table">No data</span>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
