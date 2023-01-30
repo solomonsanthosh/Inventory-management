@@ -1,231 +1,231 @@
-const { response } = require("express");
-const { where } = require("sequelize");
+const {response} = require("express");
+const {where} = require("sequelize");
 const {
-  Ticket,
-  Store,
-  Warehouse,
-  Products,
-  User,
+	Ticket,
+	Store,
+	Warehouse,
+	Products,
+	User,
 } = require("../database/database");
 
 exports.getTicketRequest = async (req, res) => {
-  try {
-    const tickets = await Ticket.findAll({ where: { requestFrom: "user" } });
-    res.json(tickets);
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const tickets = await Ticket.findAll({where: {requestFrom: "user"}});
+		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.userTicketHistory = async (req, res) => {
-  try {
-    const tickets = await Ticket.findAll({
-      where: { user_id: req.params.id, status: "CLOSE" },
-    });
-    res.json(tickets);
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const tickets = await Ticket.findAll({
+			where: {user_id: req.params.id, status: "CLOSE"},
+		});
+		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
 };
 exports.getTicketUser = async (req, res) => {
-  try {
-    if (req.params.id == "local") {
-      const tickets = await Ticket.findAll({
-        where: { status: "OPEN", requestFrom: "user" },
-      });
-      res.json(tickets);
-    } else if (req.params.id == "warehouse") {
-      const tickets = await Ticket.findAll({
-        where: { status: "OPEN", requestFrom: "local" },
-      });
-      res.json(tickets);
-    } else {
-      const tickets = await Ticket.findAll({
-        where: { user_id: req.params.id, status: ["OPEN", "APPROVAL"] },
-      });
-      res.json(tickets);
-    }
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		if (req.params.id == "local") {
+			const tickets = await Ticket.findAll({
+				where: {status: "OPEN", requestFrom: "user"},
+			});
+			res.json(tickets);
+		} else if (req.params.id == "warehouse") {
+			const tickets = await Ticket.findAll({
+				where: {status: "OPEN", requestFrom: "local"},
+			});
+			res.json(tickets);
+		} else {
+			const tickets = await Ticket.findAll({
+				where: {user_id: req.params.id, status: ["OPEN", "APPROVAL"]},
+			});
+			res.json(tickets);
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.getTicketApprove = async (req, res) => {
-  try {
-    const tickets = await Ticket.findAll({ where: { status: "APPROVAL" } });
-    res.json(tickets);
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const tickets = await Ticket.findAll({where: {status: "APPROVAL"}});
+		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.postStore = async (req, res) => {
-  try {
-    const id = req.params.product_id;
-    console.log(id);
-    const product = await Products.findOne({ where: { product_id: id } });
-    const part_no = product.dataValues.product_part_no;
+	try {
+		const id = req.params.product_id;
+		console.log(id);
+		const product = await Products.findOne({where: {product_id: id}});
+		const part_no = product.dataValues.product_part_no;
 
-    const getStore = await Store.findOne({
-      where: { product_part_no: part_no },
-    });
-    console.log(getStore);
-    const getWarehouse = await Warehouse.findOne({
-      where: { product_part_no: part_no },
-    });
-    console.log(getStore);
-    const storeLimit = getStore.dataValues.product_limit;
-    const storeTotal = getStore.dataValues.product_quantity;
-    const warehouseLimit = getWarehouse.dataValues.product_limit;
-    const warehouseTotal = getWarehouse.dataValues.product_quantity;
-    const difference = storeLimit - storeTotal;
+		const getStore = await Store.findOne({
+			where: {product_part_no: part_no},
+		});
+		console.log(getStore);
+		const getWarehouse = await Warehouse.findOne({
+			where: {product_part_no: part_no},
+		});
+		console.log(getStore);
+		const storeLimit = getStore.dataValues.product_limit;
+		const storeTotal = getStore.dataValues.product_quantity;
+		const warehouseLimit = getWarehouse.dataValues.product_limit;
+		const warehouseTotal = getWarehouse.dataValues.product_quantity;
+		const difference = storeLimit - storeTotal;
 
-    const ticket = await Ticket.create({
-      product_part_no: part_no,
-      product_quantity: difference,
-      user_id: id,
-      requestFrom: "local",
-    });
-    if (storeTotal <= storeLimit && warehouseTotal >= difference) {
-      await Store.update(
-        { product_quantity: difference + storeTotal },
-        { where: { product_part_no: part_no } }
-      );
-      await Warehouse.update(
-        { product_quantity: warehouseTotal - difference },
-        { where: { product_part_no: part_no } }
-      );
-      return res.json({ message: "success" });
-    } else {
-      return res.json({ message: "invalid" });
-    }
-  } catch (error) {
-    console.log(error);
-  }
+		const ticket = await Ticket.create({
+			product_part_no: part_no,
+			product_quantity: difference,
+			user_id: id,
+			requestFrom: "local",
+		});
+		if (storeTotal <= storeLimit && warehouseTotal >= difference) {
+			await Store.update(
+				{product_quantity: difference + storeTotal},
+				{where: {product_part_no: part_no}}
+			);
+			await Warehouse.update(
+				{product_quantity: warehouseTotal - difference},
+				{where: {product_part_no: part_no}}
+			);
+			return res.json({message: "success"});
+		} else {
+			return res.json({message: "invalid"});
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.postTicketRequest = async (req, res) => {
-  try {
-    const { part_no, quantity, id } = req.body;
+	try {
+		const {part_no, quantity, id} = req.body;
 
-    const ticket = await Ticket.create({
-      product_part_no: part_no,
-      product_quantity: quantity,
-      user_id: id,
-      requestFrom: "user",
-    });
+		const ticket = await Ticket.create({
+			product_part_no: part_no,
+			product_quantity: quantity,
+			user_id: id,
+			requestFrom: "user",
+		});
 
-    const getStore = await Store.findOne({
-      where: { product_part_no: part_no },
-    });
-    const getWarehouse = await Warehouse.findOne({
-      where: { product_part_no: part_no },
-    });
-    const storeLimit = getStore.dataValues.product_limit;
-    const storeTotal = getStore.dataValues.product_quantity;
+		const getStore = await Store.findOne({
+			where: {product_part_no: part_no},
+		});
+		const getWarehouse = await Warehouse.findOne({
+			where: {product_part_no: part_no},
+		});
+		const storeLimit = getStore.dataValues.product_limit;
+		const storeTotal = getStore.dataValues.product_quantity;
 
-    const warehouseTotal = getWarehouse.dataValues.product_quantity;
-    if (quantity >= storeTotal && quantity >= warehouseTotal) {
-      await Ticket.update(
-        { status: "APPROVAL" },
-        { where: { ticket_id: ticket.ticket_id } }
-      );
-    } else if (quantity <= storeTotal) {
-      const updatedStoreTotal = storeTotal - quantity;
-      await Store.update(
-        { product_quantity: updatedStoreTotal },
-        { where: { product_part_no: part_no } }
-      );
-    } else if (quantity > storeLimit) {
-      if (quantity <= warehouseTotal + storeTotal) {
-        updatestore1 = quantity - storeTotal;
-        if (warehouseTotal >= storeLimit) {
-          updateWarehouse = warehouseTotal - storeLimit;
-          updatestore2 = storeLimit;
-          updatedStore = updatestore2 - updatestore1;
-        } else {
-          updateWarehouse = 0;
-          updatestore2 = warehouseTotal;
-          updatedStore = updatestore2 - updatestore1;
-        }
-        await Store.update(
-          { product_quantity: updatedStore },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-        await Warehouse.update(
-          { product_quantity: updateWarehouse },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-      } else {
-        await Ticket.update(
-          { status: "APPROVAL" },
-          { where: { ticket_id: ticket.ticket_id } }
-        );
-      }
-    } else if (
-      quantity >= storeTotal &&
-      quantity - storeTotal <= warehouseTotal
-    ) {
-      if (storeLimit <= warehouseTotal) {
-        const differenceAdded = storeLimit - storeTotal;
-        const updatedStore = storeTotal + differenceAdded - quantity;
-        const updateWarehouse = warehouseTotal - differenceAdded;
+		const warehouseTotal = getWarehouse.dataValues.product_quantity;
+		if (quantity >= storeTotal && quantity >= warehouseTotal) {
+			await Ticket.update(
+				{status: "APPROVAL"},
+				{where: {ticket_id: ticket.ticket_id}}
+			);
+		} else if (quantity <= storeTotal) {
+			const updatedStoreTotal = storeTotal - quantity;
+			await Store.update(
+				{product_quantity: updatedStoreTotal},
+				{where: {product_part_no: part_no}}
+			);
+		} else if (quantity > storeLimit) {
+			if (quantity <= warehouseTotal + storeTotal) {
+				updatestore1 = quantity - storeTotal;
+				if (warehouseTotal >= storeLimit) {
+					updateWarehouse = warehouseTotal - storeLimit;
+					updatestore2 = storeLimit;
+					updatedStore = updatestore2 - updatestore1;
+				} else {
+					updateWarehouse = 0;
+					updatestore2 = warehouseTotal;
+					updatedStore = updatestore2 - updatestore1;
+				}
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			} else {
+				await Ticket.update(
+					{status: "APPROVAL"},
+					{where: {ticket_id: ticket.ticket_id}}
+				);
+			}
+		} else if (
+			quantity >= storeTotal &&
+			quantity - storeTotal <= warehouseTotal
+		) {
+			if (storeLimit <= warehouseTotal) {
+				const differenceAdded = storeLimit - storeTotal;
+				const updatedStore = storeTotal + differenceAdded - quantity;
+				const updateWarehouse = warehouseTotal - differenceAdded;
 
-        await Warehouse.update(
-          { product_quantity: updateWarehouse },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-        await Store.update(
-          { product_quantity: updatedStore },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-      } else if (storeLimit > warehouseTotal) {
-        const updatedStore = storeTotal + warehouseTotal - quantity;
-        const updateWarehouse = 0;
-        await Store.update(
-          { product_quantity: updatedStore },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-        await Warehouse.update(
-          { product_quantity: updateWarehouse },
-          {
-            where: { product_part_no: part_no },
-          }
-        );
-      }
-    } else {
-      await Ticket.update(
-        { status: "APPROVAL" },
-        { where: { ticket_id: ticket.ticket_id } }
-      );
-    }
-  } catch (error) {
-    console.log(error);
-  }
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			} else if (storeLimit > warehouseTotal) {
+				const updatedStore = storeTotal + warehouseTotal - quantity;
+				const updateWarehouse = 0;
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			}
+		} else {
+			await Ticket.update(
+				{status: "APPROVAL"},
+				{where: {ticket_id: ticket.ticket_id}}
+			);
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.updateTicketRequest = async (req, res) => {
-  try {
-    const ticket_id = req.params.ticketid;
-    const status = req.body.message;
-    const ticket = await Ticket.findOne({ where: { ticket_id: ticket_id } });
-    if (ticket) {
-      ticket.status = status;
-      await ticket.save();
-    }
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const ticket_id = req.params.ticketid;
+		const status = req.body.message;
+		const ticket = await Ticket.findOne({where: {ticket_id: ticket_id}});
+		if (ticket) {
+			ticket.status = status;
+			await ticket.save();
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 // exports.ticketCheck = async (req, res) => {
