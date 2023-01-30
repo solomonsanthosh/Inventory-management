@@ -59,6 +59,8 @@ function FormData() {
 					navigate("/");
 				} else {
 					setMsg("Invalid credentials");
+					console.log("error");
+					toast.error("Invalid credentials")
 				}
 			}
 		});
