@@ -16,6 +16,7 @@ exports.getTicketRequest = async (req, res) => {
 		console.log(error);
 	}
 };
+
 exports.userTicketHistory = async (req, res) => {
 	try {
 		const tickets = await Ticket.findAll({
@@ -135,6 +136,36 @@ exports.postTicketRequest = async (req, res) => {
 				{product_quantity: updatedStoreTotal},
 				{where: {product_part_no: part_no}}
 			);
+		} else if (quantity > storeLimit) {
+			if (quantity <= warehouseTotal + storeTotal) {
+				updatestore1 = quantity - storeTotal;
+				if (warehouseTotal >= storeLimit) {
+					updateWarehouse = warehouseTotal - storeLimit;
+					updatestore2 = storeLimit;
+					updatedStore = updatestore2 - updatestore1;
+				} else {
+					updateWarehouse = 0;
+					updatestore2 = warehouseTotal;
+					updatedStore = updatestore2 - updatestore1;
+				}
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			} else {
+				await Ticket.update(
+					{status: "APPROVAL"},
+					{where: {ticket_id: ticket.ticket_id}}
+				);
+			}
 		} else if (
 			quantity >= storeTotal &&
 			quantity - storeTotal <= warehouseTotal
@@ -170,36 +201,6 @@ exports.postTicketRequest = async (req, res) => {
 					{
 						where: {product_part_no: part_no},
 					}
-				);
-			}
-		} else if (quantity > storeLimit) {
-			if (quantity <= warehouseTotal + storeTotal) {
-				updatestore1 = quantity - storeTotal;
-				if (warehouseTotal >= storeLimit) {
-					updateWarehouse = warehouseTotal - storeLimit;
-					updatestore2 = storeLimit;
-					updatedStore = updatestore2 - updatestore1;
-				} else {
-					updateWarehouse = 0;
-					updatestore2 = warehouseTotal;
-					updatedStore = updatestore2 - updatestore1;
-				}
-				await Store.update(
-					{product_quantity: updatedStore},
-					{
-						where: {product_part_no: part_no},
-					}
-				);
-				await Warehouse.update(
-					{product_quantity: updateWarehouse},
-					{
-						where: {product_part_no: part_no},
-					}
-				);
-			} else {
-				await Ticket.update(
-					{status: "APPROVAL"},
-					{where: {ticket_id: ticket.ticket_id}}
 				);
 			}
 		} else {
