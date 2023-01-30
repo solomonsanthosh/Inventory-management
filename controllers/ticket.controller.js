@@ -10,21 +10,37 @@ const {
 
 exports.getTicketRequest = async (req, res) => {
 	try {
-		const tickets = await Ticket.findAll({});
+		const tickets = await Ticket.findAll({where: {requestFrom: "user"}});
 		res.json(tickets);
 	} catch (error) {
 		console.log(error);
 	}
 };
-
+exports.userTicketHistory = async (req, res) => {
+	try {
+		const tickets = await Ticket.findAll({
+			where: {user_id: req.params.id, status: "CLOSE"},
+		});
+		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
+};
 exports.getTicketUser = async (req, res) => {
 	try {
 		if (req.params.id == "local") {
-			const tickets = await Ticket.findAll({where: {status: "OPEN"}});
+			const tickets = await Ticket.findAll({
+				where: {status: "OPEN", requestFrom: "user"},
+			});
+			res.json(tickets);
+		} else if (req.params.id == "warehouse") {
+			const tickets = await Ticket.findAll({
+				where: {status: "OPEN", requestFrom: "local"},
+			});
 			res.json(tickets);
 		} else {
 			const tickets = await Ticket.findAll({
-				where: {user_id: req.params.id},
+				where: {user_id: req.params.id, status: ["OPEN", "APPROVAL"]},
 			});
 			res.json(tickets);
 		}
@@ -45,14 +61,18 @@ exports.getTicketApprove = async (req, res) => {
 exports.postStore = async (req, res) => {
 	try {
 		const id = req.params.product_id;
+		console.log(id);
 		const product = await Products.findOne({where: {product_id: id}});
 		const part_no = product.dataValues.product_part_no;
 
-		const store = await Store.findOne({where: {product_part_no: part_no}});
-		const warehouse = await Warehouse.findOne({
+		const getStore = await Store.findOne({
 			where: {product_part_no: part_no},
 		});
-
+		console.log(getStore);
+		const getWarehouse = await Warehouse.findOne({
+			where: {product_part_no: part_no},
+		});
+		console.log(getStore);
 		const storeLimit = getStore.dataValues.product_limit;
 		const storeTotal = getStore.dataValues.product_quantity;
 		const warehouseLimit = getWarehouse.dataValues.product_limit;
@@ -60,6 +80,12 @@ exports.postStore = async (req, res) => {
 		const difference = storeLimit - storeTotal;
 
 		if (storeTotal <= storeLimit && warehouseTotal >= difference) {
+			const ticket = await Ticket.create({
+				product_part_no: part_no,
+				product_quantity: difference,
+				user_id: id,
+				requestFrom: "local",
+			});
 			await Store.update(
 				{product_quantity: difference + storeTotal},
 				{where: {product_part_no: part_no}}
@@ -68,8 +94,10 @@ exports.postStore = async (req, res) => {
 				{product_quantity: warehouseTotal - difference},
 				{where: {product_part_no: part_no}}
 			);
+			return res.json({message: "success"});
+		} else {
+			return res.json({message: "invalid"});
 		}
-		return "Success";
 	} catch (error) {
 		console.log(error);
 	}
@@ -79,34 +107,77 @@ exports.postTicketRequest = async (req, res) => {
 	try {
 		const {part_no, quantity, id} = req.body;
 
-		console.log(req.body);
-
 		const ticket = await Ticket.create({
 			product_part_no: part_no,
 			product_quantity: quantity,
 			user_id: id,
-		}).then((response) => console.log(response));
-		// console.log(ticket);
+			requestFrom: "user",
+		});
 
-		// const getStore = await Store.findOne({
-		// 	where: {product_part_no: part_no},
-		// });
-		// const getWarehouse = await Warehouse.findOne({
-		// 	where: {product_part_no: part_no},
-		// });
+		const getStore = await Store.findOne({
+			where: {product_part_no: part_no},
+		});
+		const getWarehouse = await Warehouse.findOne({
+			where: {product_part_no: part_no},
+		});
+		const storeLimit = getStore.dataValues.product_limit;
+		const storeTotal = getStore.dataValues.product_quantity;
 
-		// const storeLimit = getStore.dataValues.product_limit;
-		// const storeTotal = getStore.dataValues.product_quantity;
-		// const warehouseLimit = getWarehouse.dataValues.product_limit;
-		// const warehouseTotal = getWarehouse.dataValues.product_quantity;
+		const warehouseTotal = getWarehouse.dataValues.product_quantity;
+		if (quantity >= storeTotal && quantity >= warehouseTotal) {
+			await Ticket.update(
+				{status: "APPROVAL"},
+				{where: {ticket_id: ticket.ticket_id}}
+			);
+		} else if (quantity <= storeTotal) {
+			const updatedStoreTotal = storeTotal - quantity;
+			await Store.update(
+				{product_quantity: updatedStoreTotal},
+				{where: {product_part_no: part_no}}
+			);
+		} else if (
+			quantity >= storeTotal &&
+			quantity - storeTotal <= warehouseTotal
+		) {
+			if (storeLimit <= warehouseTotal) {
+				const differenceAdded = storeLimit - storeTotal;
+				const updatedStore = storeTotal + differenceAdded - quantity;
+				const updateWarehouse = warehouseTotal - differenceAdded;
 
-		// console.log(
-		// 	storeLimit,
-		// 	storeTotal,
-		// 	warehouseLimit,
-		// 	warehouseTotal,
-		// 	quantity
-		// );
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			} else if (storeLimit > warehouseTotal) {
+				const updatedStore = storeTotal + warehouseTotal - quantity;
+				const updateWarehouse = 0;
+				await Store.update(
+					{product_quantity: updatedStore},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+				await Warehouse.update(
+					{product_quantity: updateWarehouse},
+					{
+						where: {product_part_no: part_no},
+					}
+				);
+			}
+		} else {
+			await Ticket.update(
+				{status: "APPROVAL"},
+				{where: {ticket_id: ticket.ticket_id}}
+			);
+		}
 	} catch (error) {
 		console.log(error);
 	}

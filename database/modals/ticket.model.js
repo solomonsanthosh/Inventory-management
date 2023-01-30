@@ -16,11 +16,17 @@ module.exports = (sequelize, DataTypes) => {
 		user_id: {
 			type: DataTypes.STRING,
 		},
+		requestFrom: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
 		status: {
 			type: DataTypes.STRING,
 			defaultValue: "OPEN",
-		}
+		},
 	});
-	// Ticket.sync({ force: true }).then(() => console.log('Ticket MODEL CREATED')).catch((err) => console.log('ERROR ' + err))
+	//   Ticket.sync({ force: true })
+	//     .then(() => console.log("Ticket MODEL CREATED"))
+	//     .catch((err) => console.log("ERROR " + err));
 	return Ticket;
 };

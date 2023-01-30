@@ -28,6 +28,8 @@ const sendEmail = async (req, res) => {
       var row12 = worksheet.getRow(12);
       var row13 = worksheet.getRow(13);
       var row20 = worksheet.getRow(20);
+      var row37 = worksheet.getRow(37);
+      var row41 = worksheet.getRow(41);
 
       row1.getCell(1).value = "name";
       row5.getCell(7).value = Date.now();
@@ -38,7 +40,11 @@ const sendEmail = async (req, res) => {
       row20.getCell(1).value = productDetails.product_part_no;
       row20.getCell(2).value = productDetails.product_name;
       row20.getCell(5).value = quantity;
-
+      row20.getCell(6).value = productDetails.product_price;
+      var total = quantity * productDetails.product_price;
+      row20.getCell(7).value = total;
+      row37.getCell(7).value = total;
+      row41.getCell(7).value = total;
       let buffer = await workbook.xlsx.writeBuffer();
       // return workbook.xlsx.writeFile(filePath);
       let transporter = nodemailer.createTransport({
