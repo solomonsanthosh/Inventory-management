@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {ticketgenerate} from "../../Axios/ticket";
 import {getProducts} from "../../Axios/store";
 import SideNav from "../../components/SideNav/SideNav";
+import {toast} from "react-toastify";
 
 const TicketGenerate = () => {
 	const user = useSelector((state) => state.auth.user);
@@ -16,10 +17,11 @@ const TicketGenerate = () => {
 	const generateTicket = () => {
 		if (part.length > 0 && quantity.length > 0) {
 			ticketgenerate(part, quantity, user.id);
-			console.log("Done");
-			// navigate("/ticketdashboard");
+			toast.success("The ticket has been generated");
+			navigate("/ticketdashboard");
 		} else {
 			console.log("error");
+			toast.error("Error!! Check the Inputs");
 		}
 	};
 
