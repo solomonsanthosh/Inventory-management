@@ -29,6 +29,13 @@ function Manager() {
             >
               View Products
             </Button>
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => navigate("/localtickets")}
+            >
+              View Tickets
+            </Button>
           </div>
           <table>
             <thead>

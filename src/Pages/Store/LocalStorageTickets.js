@@ -41,7 +41,7 @@ function LocalStorageTickets() {
 
   return (
     <div className="h-full min-h-screen  bg-[#F5F5F5] ">
-      <SideNav />
+      
       <div className="w-full pl-[65px]">
         <div className="dash">
           <h1 className="title">Ticket Status</h1>
