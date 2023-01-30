@@ -16,7 +16,6 @@ exports.getTicketRequest = async (req, res) => {
 		console.log(error);
 	}
 };
-
 exports.userTicketHistory = async (req, res) => {
 	try {
 		const tickets = await Ticket.findAll({
@@ -80,28 +79,28 @@ exports.postStore = async (req, res) => {
 		const warehouseTotal = getWarehouse.dataValues.product_quantity;
 		const difference = storeLimit - storeTotal;
 
-		const ticket = await Ticket.create({
-			product_part_no: part_no,
-			product_quantity: difference,
-			user_id: id,
-			requestFrom: "local",
-		});
-		if (storeTotal <= storeLimit && warehouseTotal >= difference) {
-			await Store.update(
-				{product_quantity: difference + storeTotal},
-				{where: {product_part_no: part_no}}
-			);
-			await Warehouse.update(
-				{product_quantity: warehouseTotal - difference},
-				{where: {product_part_no: part_no}}
-			);
-			return res.json({message: "success"});
-		} else {
-			return res.json({message: "invalid"});
-		}
-	} catch (error) {
-		console.log(error);
-	}
+    if (storeTotal <= storeLimit && warehouseTotal >= difference) {
+      const ticket = await Ticket.create({
+        product_part_no: part_no,
+        product_quantity: difference,
+        user_id: id,
+        requestFrom: "local",
+      });
+      await Store.update(
+        { product_quantity: difference + storeTotal },
+        { where: { product_part_no: part_no } }
+      );
+      await Warehouse.update(
+        { product_quantity: warehouseTotal - difference },
+        { where: { product_part_no: part_no } }
+      );
+      return res.json({ message: "success" });
+    } else {
+      return res.status(404).json({ message: "invalid" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.postTicketRequest = async (req, res) => {
