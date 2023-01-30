@@ -16,6 +16,7 @@ exports.createProducts = async (req, res) => {
       product_name: "Product ABC",
       product_url: "d",
       product_part_no: "part1",
+      product_price: 100,
     },
   ];
   try {
