@@ -61,7 +61,7 @@ function TicketHistory() {
               })}
             </tbody>
           </table>
-          {ticketData.length !== 0 ? (
+          {ticketData.length > 10 ? (
             <div className="dashboard-content-footer">
               {pagination.map((item, index) => (
                 <span
@@ -73,11 +73,12 @@ function TicketHistory() {
                 </span>
               ))}
             </div>
-          ) : (
+          ) : null}
+          {ticketData.length == 0 ? (
             <div className="dashboard-content-footer">
               <span className="empty-table">No data</span>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

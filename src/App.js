@@ -13,6 +13,11 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import ManagerRoute from "./utils/ManagerRoute";
 import Store from "./Pages/Store/Store";
 import TicketHistory from "./Pages/Ticket/TicketHistory";
+import Warehouse from "./Pages/Store/Warehouse";
+import LocalStorageTickets from "./Pages/Store/LocalStorageTickets";
+import LocalStorageRoute from "./utils/LocalStorageRoute";
+import ErrorPage from "./Pages/Error/ErrorPage";
+
 function App() {
   const [user, setUser] = useState(false);
 
@@ -20,6 +25,9 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<SignIn />}></Route>
+
+          {/* user */}
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<TicketGenerate />}></Route>
 
@@ -29,11 +37,8 @@ function App() {
             ></Route>
             <Route path="/tickethistory" element={<TicketHistory />}></Route>
           </Route>
+          {/* user */}
 
-          <Route path="/login" element={<SignIn />}></Route>
-          <Route path="/store" element={<Store />}></Route>
-
-          <Route path="/local" element={<LocalStorage />}></Route>
           {/* manager */}
           <Route element={<ManagerRoute />}>
             <Route path="/manager" element={<Manager />}></Route>
@@ -43,6 +48,21 @@ function App() {
             ></Route>
             <Route path="/manager/suggest" element={<Suggest />}></Route>
           </Route>
+
+          {/* manager */}
+          {/* local */}
+          <Route element={<LocalStorageRoute />}>
+            <Route path="/store" element={<Store />}></Route>
+            <Route
+              path="/localtickets"
+              element={<LocalStorageTickets />}
+            ></Route>
+
+            <Route path="/local" element={<LocalStorage />}></Route>
+          </Route>
+          {/* local */}
+          <Route path="/warehouse" element={<Warehouse />}></Route>
+          <Route path="/error404" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

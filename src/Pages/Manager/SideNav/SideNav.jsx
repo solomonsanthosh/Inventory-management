@@ -1,5 +1,12 @@
-import  React,{useState} from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import React, { useState } from "react";
+
+import themes from "../../../utils/theme";
+import {
+  ThemeProvider,
+  styled,
+  useTheme,
+  makeStyles,
+} from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
@@ -16,16 +23,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
 import CreateAccount from "../CreateAccount";
 const drawerWidth = 240;
-
-
-
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -90,8 +94,20 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-
 export default function MiniDrawer() {
+  // const useStyles = makeStyles((theme) => ({
+  //   root: {
+  //     color: "#000000",
+  //   },
+  //   links: {
+  //     padding: "0 50px",
+  //     color: "white",
+  //     "&:hover": {
+  //       textDecorationColor: "green",
+  //       cursor: "pointer",
+  //     },
+  //   },
+  // }));
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -104,142 +120,174 @@ export default function MiniDrawer() {
   };
 
   const [openModel, setOpenModel] = useState(false);
+  // const Navbar = useStyles();
   return (
     <>
-    {openModel ?<CreateAccount setOpenModel={setOpenModel}/>:null}
-    <Box sx={{ display: "flex" }} >
-      <CssBaseline />
-      
-      {/* <AppBar  >
-        <Toolbar>
-          
-          
-        </Toolbar>
-      </AppBar> */}
-      <Drawer variant="permanent" open={open} className="z-1">
-        <DrawerHeader>
-            
-          {open ? (<IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>):(<IconButton
-        
-        open={open}
-        position="fixed"
-        color="inherit"
-        aria-label="open drawer"
-        onClick={handleDrawerOpen}
-        edge="start"
-        sx={{
-        //   marginRight: 5,
-          ...(open && { display: "none" }),
-        }}
-      >
-        <MenuIcon />
-      </IconButton>)}
-        </DrawerHeader>
-        <Divider />
-        <List>
-            <Link to="/manager">
-            <ListItem key={"Ticket"}  disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <ConfirmationNumberIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Ticket"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem></Link>
-            {/* // */}
-            <Link to="/manager/suggest">
-            <ListItem key={"Approve"}  disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CheckBoxIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Approve"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-            
-            <ListItem key={"Approve"} onClick={()=>setOpenModel(!openModel)} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <AddIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Approve"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            <Link to="/manager/showaccounts">
-            <ListItem key={"Approve"}  disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <RemoveRedEyeIcon />
-                </ListItemIcon>
-                <ListItemText primary={"Approve"} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-            </Link>
-            
+      {openModel ? <CreateAccount setOpenModel={setOpenModel} /> : null}
+      <ThemeProvider theme={themes}>
+        <Box
+          // className={Navbar.root}
+          bgcolor="secondary.main"
+          sx={{ display: "flex", backgroundColor: "green" }}
+        >
+          <CssBaseline color="secondary.main" />
 
+          {/* <AppBar color="secondary">
+            <Toolbar></Toolbar>
+          </AppBar> */}
+          <Drawer
+            color="secondary"
+            variant="permanent"
+            open={open}
+            className="z-1"
+          >
+            <DrawerHeader>
+              {open ? (
+                <IconButton onClick={handleDrawerClose}>
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon />
+                  ) : (
+                    <ChevronLeftIcon />
+                  )}
+                </IconButton>
+              ) : (
+                <IconButton
+                  open={open}
+                  position="fixed"
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={{
+                    //   marginRight: 5,
+                    ...(open && { display: "none" }),
+                  }}
+                >
+                  <MenuIcon />
+                </IconButton>
+              )}
+            </DrawerHeader>
+            <Divider />
+            <List>
+              <Link to="/manager">
+                <ListItem
+                  key={"Ticket"}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <ConfirmationNumberIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Ticket"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+              {/* // */}
+              <Link to="/manager/suggest">
+                <ListItem
+                  key={"Approve"}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CheckBoxIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Approve"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
 
-
-          
-        </List>
-        {/* <Divider />
+              <ListItem
+                key={"Approve"}
+                onClick={() => setOpenModel(!openModel)}
+                disablePadding
+                sx={{ display: "block" }}
+              >
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <AddIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={"Approve"}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </ListItem>
+              <Link to="/manager/showaccounts">
+                <ListItem
+                  key={"Approve"}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <RemoveRedEyeIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Approve"}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </List>
+            {/* <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
@@ -264,7 +312,9 @@ export default function MiniDrawer() {
             </ListItem>
           ))}
         </List> */}
-      </Drawer>
-    </Box></>
+          </Drawer>
+        </Box>
+      </ThemeProvider>
+    </>
   );
 }

@@ -1,13 +1,13 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-const ManagerRoute = () => {
+const LocalStorageRoute = () => {
   const state = useSelector((state) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   useEffect(() => {
     let user = state.user;
 
-    if (user.role == "admin") {
+    if (user.role == "local") {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
@@ -19,4 +19,4 @@ const ManagerRoute = () => {
   }
   return isAuthenticated ? <Outlet /> : <Navigate to="/error404" />;
 };
-export default ManagerRoute;
+export default LocalStorageRoute;
