@@ -79,13 +79,13 @@ exports.postStore = async (req, res) => {
     const warehouseTotal = getWarehouse.dataValues.product_quantity;
     const difference = storeLimit - storeTotal;
 
+    const ticket = await Ticket.create({
+      product_part_no: part_no,
+      product_quantity: difference,
+      user_id: id,
+      requestFrom: "local",
+    });
     if (storeTotal <= storeLimit && warehouseTotal >= difference) {
-      const ticket = await Ticket.create({
-        product_part_no: part_no,
-        product_quantity: difference,
-        user_id: id,
-        requestFrom: "local",
-      });
       await Store.update(
         { product_quantity: difference + storeTotal },
         { where: { product_part_no: part_no } }
