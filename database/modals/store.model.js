@@ -2,7 +2,7 @@ module.exports = (sequelize, DataTypes) => {
   const Store = sequelize.define("store", {
     product_id: {
       type: DataTypes.STRING,
-      primaryKey: true,
+      // primaryKey: true,
       allowNull: false,
     },
     product_part_no: {
