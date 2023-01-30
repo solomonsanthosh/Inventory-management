@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ticketgenerate} from "../../Axios/ticket";
 import {getProducts} from "../../Axios/store";
 import SideNav from "../../components/SideNav/SideNav";
@@ -16,7 +16,8 @@ const TicketGenerate = () => {
 	const generateTicket = () => {
 		if (part.length > 0 && quantity.length > 0) {
 			ticketgenerate(part, quantity, user.id);
-			navigate("/ticketdashboard");
+			console.log("Done");
+			// navigate("/ticketdashboard");
 		} else {
 			console.log("error");
 		}
@@ -44,8 +45,9 @@ const TicketGenerate = () => {
 						<select
 							id="productPartNo"
 							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							onChange={(e) => setPart(e.target.value)}
+							onClick={(e) => setPart(e.target.value)}
 						>
+							<option value="null">Select any one</option>
 							{allproducts.map((part_no) => {
 								return (
 									<option value={part_no.product_part_no}>
