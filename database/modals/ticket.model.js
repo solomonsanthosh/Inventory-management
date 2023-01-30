@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
 		user_id: {
 			type: DataTypes.STRING,
 		},
-		
 		status: {
 			type: DataTypes.STRING,
 			defaultValue: "OPEN",
