@@ -1,5 +1,3 @@
-const {response} = require("express");
-const {where} = require("sequelize");
 const {
 	Ticket,
 	Store,
@@ -10,37 +8,51 @@ const {
 
 exports.getTicketRequest = async (req, res) => {
 	try {
-		const tickets = await Ticket.findAll({where: {requestFrom: "user"}});
-		res.json(tickets);
-	} catch (error) {
-		console.log(error);
-	}
-};
-exports.userTicketHistory = async (req, res) => {
-	try {
 		const tickets = await Ticket.findAll({
-			where: {user_id: req.params.id, status: "CLOSE"},
+			where: {requestFrom: "user"},
+			raw: true,
+			order: [["createdAt", "DESC"]],
 		});
 		res.json(tickets);
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+exports.userTicketHistory = async (req, res) => {
+	try {
+		const tickets = await Ticket.findAll({
+			where: {user_id: req.params.id, status: "CLOSE"},
+			raw: true,
+			order: [["createdAt", "DESC"]],
+		});
+		res.json(tickets);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 exports.getTicketUser = async (req, res) => {
 	try {
 		if (req.params.id == "local") {
 			const tickets = await Ticket.findAll({
 				where: {status: "OPEN", requestFrom: "user"},
+				raw: true,
+				order: [["createdAt", "DESC"]],
 			});
 			res.json(tickets);
 		} else if (req.params.id == "warehouse") {
 			const tickets = await Ticket.findAll({
 				where: {status: "OPEN", requestFrom: "local"},
+				raw: true,
+				order: [["createdAt", "DESC"]],
 			});
 			res.json(tickets);
 		} else {
 			const tickets = await Ticket.findAll({
 				where: {user_id: req.params.id, status: ["OPEN", "APPROVAL"]},
+				raw: true,
+				order: [["createdAt", "DESC"]],
 			});
 			res.json(tickets);
 		}
@@ -51,7 +63,11 @@ exports.getTicketUser = async (req, res) => {
 
 exports.getTicketApprove = async (req, res) => {
 	try {
-		const tickets = await Ticket.findAll({where: {status: "APPROVAL"}});
+		const tickets = await Ticket.findAll({
+			where: {status: "APPROVAL"},
+			raw: true,
+			order: [["createdAt", "DESC"]],
+		});
 		res.json(tickets);
 	} catch (error) {
 		console.log(error);
