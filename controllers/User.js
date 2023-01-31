@@ -31,7 +31,17 @@ exports.showAccounts = async (req, res) => {
     console.log(error);
   }
 };
-
+exports.updateAccount = async (req, res) => {
+  try {
+    const { user } = req.body;
+    return await User.update(user, { where: { id: user.id } });
+  } catch (error) {}
+};
+exports.deleteAccount = async (req, res) => {
+  try {
+    return await User.destroy({ where: { id: req.params.id } });
+  } catch (error) {}
+};
 exports.loginAccount = async (req, res) => {
   try {
     const { user } = req.body;
