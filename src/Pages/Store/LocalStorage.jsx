@@ -21,7 +21,7 @@ function Manager() {
       <div className="w-full">
         <div className="dash">
           <h1 className="title">Tickets</h1>
-          <div className="pt-5 pl-[1rem]">
+          <div className="pt-5 pl-[1rem] flex">
             <Button
               color="success"
               variant="contained"
@@ -29,13 +29,15 @@ function Manager() {
             >
               View Products
             </Button>
-            <Button
-              color="success"
-              variant="contained"
-              onClick={() => navigate("/localtickets")}
-            >
-              View Tickets
-            </Button>
+            <div className="ml-6">
+              <Button
+                color="success"
+                variant="contained"
+                onClick={() => navigate("/localtickets")}
+              >
+                View Tickets
+              </Button>
+            </div>
           </div>
           <table>
             <thead>
