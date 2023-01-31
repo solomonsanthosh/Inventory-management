@@ -5,6 +5,7 @@ import { suggesttickets } from "../../Axios/ticket";
 import { getSuggestion, sendEmail } from "../../Axios/manager";
 import { calculateRange, sliceData } from "../../utils/table-pagination";
 
+
 function Suggest() {
   const [showTicket, setShowTicket] = useState([]);
   const [pagination, setPagination] = useState([]);
@@ -38,6 +39,7 @@ function Suggest() {
     sendEmail(id, product, quantity).then(() => {
       setOpen(false);
       alert("email sent successfully");
+      
     });
   };
   function changeBackground(e) {
