@@ -43,9 +43,11 @@ function FormData() {
 			console.log(res);
 			if (res?.data.user.role == "admin") {
 				dispatch(setCredentials({user: res.data.user}));
+				toast.success("You have been logged in");
 				navigate("/manager");
 			} else if (res?.data.user.role == "local") {
 				dispatch(setCredentials({user: res.data.user}));
+				toast.success("You have been logged in");
 				navigate("/local");
 			} else {
 				if (res?.data.message == "success") {
@@ -60,7 +62,7 @@ function FormData() {
 				} else {
 					setMsg("Invalid credentials");
 					console.log("error");
-					toast.error("Invalid credentials")
+					toast.error("Invalid credentials");
 				}
 			}
 		});
