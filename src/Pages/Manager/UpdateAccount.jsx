@@ -2,11 +2,25 @@ import React, {useState, useEffect} from "react";
 import SideNav from "./SideNav/SideNav";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {createAccountAxios} from "../../Axios/manager";
-const CreateAccount = ({setOpenModel}) => {
+import {
+	Button,
+	FormControl,
+	FormHelperText,
+	InputLabel,
+	MenuItem,
+	Select,
+} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {updateAccount, deleteAccount} from "../../Axios/manager";
+
+const UpdateAccount = ({setUpdateUser, user}) => {
 	const [trigger, setTrigger] = useState(false);
 	const [name, setName] = useState("");
+	const [role, setRole] = useState("");
+	const [userId, setUserId] = useState(user.id);
+
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		if (password.length > 0 && name.length > 0) {
 			setTextErr(false);
@@ -19,19 +33,22 @@ const CreateAccount = ({setOpenModel}) => {
 	const [textErr, setTextErr] = useState(null);
 	const submitForm = () => {
 		const user = {
+			id: userId,
 			name: name,
 			password: password,
-			role: "warehouse",
+			role: role,
 		};
-		createAccountAxios(user);
-		setOpenModel(false);
+		updateAccount(user);
+		console.log(user);
+		setUpdateUser(false);
 	};
+
 	return (
 		<>
 			<div className="w-full h-full  bg-[#00000069] absolute flex justify-center items-center z-10">
 				<div className="w-[50%] bg-[#f5f5f5] flex flex-col p-8 rounded">
 					<h1 className="text-[1.5rem] font-bold mb-8">
-						Create Account
+						Update Account
 					</h1>
 
 					<TextField
@@ -39,6 +56,7 @@ const CreateAccount = ({setOpenModel}) => {
 						className="w-[%100]"
 						required
 						label="Name"
+						defaultValue={user.name}
 						onChange={(e) => {
 							setName(e.target.value);
 							setTrigger(!trigger);
@@ -49,6 +67,7 @@ const CreateAccount = ({setOpenModel}) => {
 						required
 						id="outlined-required"
 						label="Password"
+						defaultValue={user.password}
 						onChange={(e) => {
 							setPassword(e.target.value);
 							setTrigger(!trigger);
@@ -63,6 +82,8 @@ const CreateAccount = ({setOpenModel}) => {
 							labelId="demo-simple-select-helper-label"
 							id="demo-simple-select-helper"
 							label="Role"
+							defaultValue={user.role}
+							onChange={(e) => setRole(e.target.value)}
 						>
 							<MenuItem value="">
 								<em>None</em>
@@ -70,7 +91,6 @@ const CreateAccount = ({setOpenModel}) => {
 							<MenuItem value="user">user</MenuItem>
 							<MenuItem value="local">local</MenuItem>
 							<MenuItem value="admin">admin</MenuItem>
-							{/* <MenuItem value="warehouse">warehouse</MenuItem> */}
 						</Select>
 					</FormControl>
 
@@ -80,10 +100,12 @@ const CreateAccount = ({setOpenModel}) => {
 							disabled={textErr}
 							variant="outlined"
 						>
-							Create Account
+							Update Account
 						</Button>
 						<Button
-							onClick={() => setOpenModel(false)}
+							onClick={() => {
+								setUpdateUser(false);
+							}}
 							variant="outlined"
 							color="error"
 						>
@@ -96,4 +118,4 @@ const CreateAccount = ({setOpenModel}) => {
 	);
 };
 
-export default CreateAccount;
+export default UpdateAccount;
