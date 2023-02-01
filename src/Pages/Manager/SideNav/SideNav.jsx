@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import themes from "../../../utils/theme";
 import {
   ThemeProvider,
@@ -29,6 +29,10 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
 import CreateAccount from "../CreateAccount";
+import LockIcon from "@mui/icons-material/Lock";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../../slice/userSlice";
+
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -120,6 +124,8 @@ export default function MiniDrawer() {
   };
 
   const [openModel, setOpenModel] = useState(false);
+  const dispatch = useDispatch();
+  const Navigate = useNavigate();
   // const Navbar = useStyles();
   return (
     <>
@@ -287,6 +293,38 @@ export default function MiniDrawer() {
                 </ListItem>
               </Link>
             </List>
+            <ListItem
+              className="mt-auto"
+              key={"logout"}
+              disablePadding
+              sx={{ display: "block" }}
+              onClick={() => {
+                dispatch(setCredentials({ user: "" }));
+                Navigate("/login");
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LockIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Logout"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
             {/* <Divider />
         <List>
           {["All mail", "Trash", "Spam"].map((text, index) => (

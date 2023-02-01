@@ -21,8 +21,10 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import AddIcon from "@mui/icons-material/Add";
 import HistoryIcon from "@mui/icons-material/History";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { Link } from "react-router-dom";
-
+import { Link, Navigate } from "react-router-dom";
+import LockIcon from "@mui/icons-material/Lock";
+import { useSelector, useDispatch } from "react-redux";
+import { setCredentials } from "../../slice/userSlice";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -101,7 +103,7 @@ export default function MiniDrawer() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  const dispatch = useDispatch();
   const [openModel, setOpenModel] = useState(false);
   return (
     <>
@@ -227,6 +229,39 @@ export default function MiniDrawer() {
                 </ListItemButton>
               </ListItem>
             </Link>
+
+            <ListItem
+              key={"logout"}
+              className="mt-auto"
+              disablePadding
+              sx={{ display: "block" }}
+              onClick={() => {
+                dispatch(setCredentials({ user: "", token: "" }));
+                Navigate("/login");
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LockIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={"Logout"}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            </ListItem>
           </List>
           {/* <Divider />
         <List>
