@@ -13,6 +13,7 @@ import { createAccountAxios } from "../../Axios/manager";
 const CreateAccount = ({ setOpenModel }) => {
   const [trigger, setTrigger] = useState(false);
   const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   useEffect(() => {
     if (password.length > 0 && name.length > 0) {
       setTextErr(false);
@@ -27,7 +28,7 @@ const CreateAccount = ({ setOpenModel }) => {
     const user = {
       name: name,
       password: password,
-      role: "warehouse",
+      role: role,
     };
     createAccountAxios(user);
     setOpenModel(false);
@@ -64,7 +65,8 @@ const CreateAccount = ({ setOpenModel }) => {
               className="w-[%100]"
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"
-              label="Role">
+              label="Role"
+              onChange={(e) => setRole(e.target.value)}>
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>

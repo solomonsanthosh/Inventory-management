@@ -53,6 +53,10 @@ function FormData() {
         dispatch(setCredentials({ user: res.data.user }));
         toast.success("You have been logged in");
         navigate("/local");
+      } else if (res?.data.user.role == "warehouse") {
+        dispatch(setCredentials({ user: res.data.user }));
+        toast.success("You have been logged in");
+        navigate("/warehouse");
       } else {
         console.log(res);
         if (res?.data.message == "success") {
@@ -110,8 +114,7 @@ function FormData() {
               class="h-5 w-5 text-gray-400"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+              stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -134,8 +137,7 @@ function FormData() {
         disabled={textErr}
         onClick={submitLogin}
         variant="contained"
-        className=" px-8 py-2 bg-[#3d90c0] text-white rounded-3xl"
-      >
+        className=" px-8 py-2 bg-[#3d90c0] text-white rounded-3xl">
         SUBMIT
       </Button>
     </form>

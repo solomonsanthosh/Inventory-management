@@ -31,6 +31,7 @@ function Manager() {
               <th>Ticket ID</th>
               <th>Part Name</th>
               <th>Quantity</th>
+              <th>Status</th>
             </thead>
             <tbody>
               {tickets?.map((ticket) => {
@@ -42,6 +43,7 @@ function Manager() {
 
                     <td>{ticket.product_part_no}</td>
                     <td>{ticket.product_quantity}</td>
+                    <td>{ticket.status}</td>
                   </tr>
                 );
               })}
