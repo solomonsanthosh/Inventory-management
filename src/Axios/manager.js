@@ -1,5 +1,6 @@
 import axios from "axios";
-const server_link = "https://inventory-server-3jgi.onrender.com";
+// const server_link = "https://inventory-server-3jgi.onrender.com";
+const server_link = "http://localhost:8080";
 
 export const createAccountAxios = async (user) => {
 	console.log("user", user);
