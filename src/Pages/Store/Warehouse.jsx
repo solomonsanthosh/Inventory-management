@@ -18,7 +18,14 @@ function Manager() {
       <div className="w-full">
         <div className="dash">
           <h1 className="title">Tickets</h1>
-
+          <div className="pt-5 pl-[1rem] flex">
+            <Button
+              color="success"
+              variant="contained"
+              onClick={() => navigate("/warehouseproducts")}>
+              View Products
+            </Button>
+          </div>
           <table>
             <thead>
               <th>Ticket ID</th>

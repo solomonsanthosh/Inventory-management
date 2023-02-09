@@ -19,6 +19,7 @@ import Warehouse from "./Pages/Store/Warehouse";
 import LocalStorageTickets from "./Pages/Store/LocalStorageTickets";
 import LocalStorageRoute from "./utils/LocalStorageRoute";
 import ErrorPage from "./Pages/Error/ErrorPage";
+import WarehouseProducts from "./Pages/Store/WarehouseProducts";
 
 function App() {
   const [user, setUser] = useState(false);
@@ -36,8 +37,7 @@ function App() {
 
             <Route
               path="/ticketdashboard"
-              element={<TicketDashboard />}
-            ></Route>
+              element={<TicketDashboard />}></Route>
             <Route path="/tickethistory" element={<TicketHistory />}></Route>
           </Route>
           {/* user */}
@@ -47,8 +47,7 @@ function App() {
             <Route path="/manager" element={<Manager />}></Route>
             <Route
               path="/manager/showaccounts"
-              element={<ShowAccounts />}
-            ></Route>
+              element={<ShowAccounts />}></Route>
             <Route path="/manager/suggest" element={<Suggest />}></Route>
           </Route>
 
@@ -58,13 +57,15 @@ function App() {
             <Route path="/store" element={<Store />}></Route>
             <Route
               path="/localtickets"
-              element={<LocalStorageTickets />}
-            ></Route>
+              element={<LocalStorageTickets />}></Route>
 
             <Route path="/local" element={<LocalStorage />}></Route>
           </Route>
           {/* local */}
           <Route path="/warehouse" element={<Warehouse />}></Route>
+          <Route
+            path="/warehouseproducts"
+            element={<WarehouseProducts />}></Route>
           <Route path="/error404" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>

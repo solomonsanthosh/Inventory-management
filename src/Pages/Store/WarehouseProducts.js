@@ -5,10 +5,10 @@ import "../Manager/manager.css";
 import { getProducts, postStore } from "../../Axios/store";
 import { Button } from "@mui/material";
 import { toast } from "react-toastify";
-function Store() {
+function WarehouseProducts() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    getProducts("local").then((res) => {
+    getProducts("warehouse").then((res) => {
       setProducts(res.data);
     });
   }, []);
@@ -38,7 +38,6 @@ function Store() {
               <th>Part No</th>
               <th>Quantity</th>
               <th>Product Limit</th>
-              <th>Operation</th>
             </thead>
             <tbody>
               {products?.map((product) => {
@@ -49,16 +48,6 @@ function Store() {
                     <td>{product.product_part_no}</td>
                     <td>{product.product_quantity}</td>
                     <td>{product.product_limit}</td>
-                    <td>
-                      <Button
-                        color="success"
-                        variant="contained"
-                        onClick={() => {
-                          handleSubmit(product.product_id);
-                        }}>
-                        Request Product
-                      </Button>
-                    </td>
                   </tr>
                 );
               })}
@@ -70,4 +59,4 @@ function Store() {
   );
 }
 
-export default Store;
+export default WarehouseProducts;
