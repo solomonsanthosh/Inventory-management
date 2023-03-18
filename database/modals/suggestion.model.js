@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: { len: [6] },
     },
   });
-  //   Suggestion.sync({ force: true })
-  //     .then(() => console.log("Suggestion MODEL CREATED"))
+  // Suggestion.sync({ force: true })
+  //   .then(() => console.log("Suggestion MODEL CREATED"))
 
-  // .catch((err) => console.log("ERROR " + err));
+  //   .catch((err) => console.log("ERROR " + err));
   return Suggestion;
 };

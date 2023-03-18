@@ -13,10 +13,46 @@ exports.getAllProducts = async (req, res) => {
 exports.createProducts = async (req, res) => {
   const bulkProducts = [
     {
-      product_name: "Product ABC",
-      product_url: "d",
-      product_part_no: "part1",
-      product_price: 100,
+      product_name: "B MAX Ball Pen",
+
+      product_part_no: "b_max_ball_pen",
+      product_price: 254,
+    },
+    {
+      product_name: "Single Punch Kangaro FP",
+
+      product_part_no: "single_punch_kangaro_FP",
+      product_price: 186,
+    },
+    {
+      product_name: "Double Punch Kangaro",
+
+      product_part_no: "double_punch_kangaro",
+      product_price: 180,
+    },
+    {
+      product_name: "Scissors",
+
+      product_part_no: "scissors",
+      product_price: 67,
+    },
+    {
+      product_name: "Glue stick",
+
+      product_part_no: "glue_stick",
+      product_price: 97,
+    },
+    {
+      product_name: "Spring File",
+
+      product_part_no: "spring_file",
+      product_price: 152,
+    },
+    {
+      product_name: "Box File",
+
+      product_part_no: "box_file",
+      product_price: 305,
     },
   ];
   try {

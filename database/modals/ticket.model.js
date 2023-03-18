@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: "OPEN",
     },
   });
-  //   Ticket.sync({ force: true })
-  //     .then(() => console.log("Ticket MODEL CREATED"))
-  //     .catch((err) => console.log("ERROR " + err));
+  // Ticket.sync({ force: true })
+  //   .then(() => console.log("Ticket MODEL CREATED"))
+  //   .catch((err) => console.log("ERROR " + err));
   return Ticket;
 };

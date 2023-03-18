@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  //   Warehouse.sync({ force: true })
-  //     .then(() => console.log("Warehouse MODEL CREATED"))
-  //     .catch((err) => console.log("ERROR " + err));
+  // Warehouse.sync({ force: true })
+  //   .then(() => console.log("Warehouse MODEL CREATED"))
+  //   .catch((err) => console.log("ERROR " + err));
   return Warehouse;
 };

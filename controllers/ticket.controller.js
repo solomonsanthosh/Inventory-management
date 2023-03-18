@@ -167,7 +167,6 @@ exports.postTicketRequest = async (req, res) => {
           updatestore2 = storeLimit;
           updatedStore = updatestore2 - updatestore1;
         } else {
-          console.log("hi");
           updateWarehouse = 0;
           const ticket = await Ticket.create({
             product_part_no: part_no,
