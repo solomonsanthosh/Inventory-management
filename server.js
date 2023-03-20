@@ -20,11 +20,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/", userRoute);
-app.use("/", productRoute);
-app.use("/", storeRoute);
-app.use("/", ticketRoute);
-app.use("/", suggestRoute);
+app.use("/api", userRoute);
+app.use("/api", productRoute);
+app.use("/api", storeRoute);
+app.use("/api", ticketRoute);
+app.use("/api", suggestRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`server is running at ${process.env.PORT}`);

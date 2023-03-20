@@ -16,9 +16,36 @@ exports.getSuggestions = async (req, res) => {
 exports.postSuggestion = async (req, res) => {
   const bulkSuppliers = [
     {
-      company_name: "XYZ",
+      company_name: "PEN_SUPPLIER",
       company_email: "solosanty2064@gmail.com",
-      product_part_no: "part1",
+      product_part_no: "b_max_ball_pen",
+      address: "No 13, 8th street eswaran nagar pammal",
+      city: "chennai",
+      pincode: 600075,
+      phone: 7397293940,
+    },
+    {
+      company_name: "PEN_SUPPLIER",
+      company_email: "solosanty2064@gmail.com",
+      product_part_no: "glue_stick",
+      address: "No 13, 8th street eswaran nagar pammal",
+      city: "chennai",
+      pincode: 600075,
+      phone: 7397293940,
+    },
+    {
+      company_name: "PEN_SUPPLIER",
+      company_email: "solosanty2064@gmail.com",
+      product_part_no: "box_file",
+      address: "No 13, 8th street eswaran nagar pammal",
+      city: "chennai",
+      pincode: 600075,
+      phone: 7397293940,
+    },
+    {
+      company_name: "PEN_SUPPLIER",
+      company_email: "solosanty2064@gmail.com",
+      product_part_no: "spring_file",
       address: "No 13, 8th street eswaran nagar pammal",
       city: "chennai",
       pincode: 600075,

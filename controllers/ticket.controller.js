@@ -122,7 +122,7 @@ exports.postStore = async (req, res) => {
 exports.postTicketRequest = async (req, res) => {
   try {
     const { part_no, quantity, id } = req.body;
-
+    console.log("oo");
     const ticket = await Ticket.create({
       product_part_no: part_no,
       product_quantity: quantity,
@@ -142,7 +142,7 @@ exports.postTicketRequest = async (req, res) => {
     const storeTotal = getStore.dataValues.product_quantity;
 
     const warehouseTotal = getWarehouse.dataValues.product_quantity;
-    if (quantity >= storeTotal && quantity >= warehouseTotal) {
+    if (quantity >= storeTotal + warehouseTotal) {
       await Ticket.update(
         { status: "APPROVAL" },
         { where: { ticket_id: ticket.ticket_id } }
