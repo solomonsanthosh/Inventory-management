@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const server_link = "http://localhost:8080";
+const server_link = "http://54.238.99.205/api";
 
 export const gettickets = async () => {
   // return await axios.get(`${process.env.REACT_APP_BASE_URL}/gettickets`);

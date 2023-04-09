@@ -134,8 +134,7 @@ export default function MiniDrawer() {
         <Box
           // className={Navbar.root}
           bgcolor="secondary.main"
-          sx={{ display: "flex", backgroundColor: "green" }}
-        >
+          sx={{ display: "flex", backgroundColor: "green" }}>
           <CssBaseline color="secondary.main" />
 
           {/* <AppBar color="secondary">
@@ -145,8 +144,7 @@ export default function MiniDrawer() {
             color="secondary"
             variant="permanent"
             open={open}
-            className="z-1"
-          >
+            className="z-1">
             <DrawerHeader>
               {open ? (
                 <IconButton onClick={handleDrawerClose}>
@@ -167,8 +165,7 @@ export default function MiniDrawer() {
                   sx={{
                     //   marginRight: 5,
                     ...(open && { display: "none" }),
-                  }}
-                >
+                  }}>
                   <MenuIcon />
                 </IconButton>
               )}
@@ -179,22 +176,19 @@ export default function MiniDrawer() {
                 <ListItem
                   key={"Ticket"}
                   disablePadding
-                  sx={{ display: "block" }}
-                >
+                  sx={{ display: "block" }}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
-                    }}
-                  >
+                    }}>
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",
                         justifyContent: "center",
-                      }}
-                    >
+                      }}>
                       <ConfirmationNumberIcon />
                     </ListItemIcon>
                     <ListItemText
@@ -209,22 +203,19 @@ export default function MiniDrawer() {
                 <ListItem
                   key={"Approve"}
                   disablePadding
-                  sx={{ display: "block" }}
-                >
+                  sx={{ display: "block" }}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
-                    }}
-                  >
+                    }}>
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",
                         justifyContent: "center",
-                      }}
-                    >
+                      }}>
                       <CheckBoxIcon />
                     </ListItemIcon>
                     <ListItemText
@@ -236,57 +227,51 @@ export default function MiniDrawer() {
               </Link>
 
               <ListItem
-                key={"Approve"}
+                key={"Add Account"}
                 onClick={() => setOpenModel(!openModel)}
                 disablePadding
-                sx={{ display: "block" }}
-              >
+                sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
-                  }}
-                >
+                  }}>
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
-                    }}
-                  >
+                    }}>
                     <AddIcon />
                   </ListItemIcon>
                   <ListItemText
-                    primary={"Approve"}
+                    primary={"Add Account"}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                 </ListItemButton>
               </ListItem>
               <Link to="/manager/showaccounts">
                 <ListItem
-                  key={"Approve"}
+                  key={"View Accounts"}
                   disablePadding
-                  sx={{ display: "block" }}
-                >
+                  sx={{ display: "block" }}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
-                    }}
-                  >
+                    }}>
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",
                         justifyContent: "center",
-                      }}
-                    >
+                      }}>
                       <RemoveRedEyeIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"Approve"}
+                      primary={"View Accounts"}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItemButton>
@@ -301,22 +286,19 @@ export default function MiniDrawer() {
               onClick={() => {
                 dispatch(setCredentials({ user: "" }));
                 Navigate("/login");
-              }}
-            >
+              }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
-                }}
-              >
+                }}>
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
-                  }}
-                >
+                  }}>
                   <LockIcon />
                 </ListItemIcon>
                 <ListItemText

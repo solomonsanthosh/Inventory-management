@@ -1,5 +1,5 @@
 import axios from "axios";
-const server_link = "http://localhost:8080";
+const server_link = "http://54.238.99.205/api";
 export const getProducts = async (location) => {
   return await axios.get(`${server_link}/allproducts/${location}`);
 };

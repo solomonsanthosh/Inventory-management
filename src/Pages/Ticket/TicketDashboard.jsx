@@ -35,9 +35,7 @@ function TicketDashboard() {
   };
 
   const handleChange = (e, id) => {
-    console.log(e, "id", id);
     updateticket(id, e);
-    window.location.reload(false);
   };
 
   return (
@@ -79,8 +77,7 @@ function TicketDashboard() {
                 <span
                   key={index}
                   className={item === page ? "active-pagination" : "pagination"}
-                  onClick={() => __handleChangePage(item)}
-                >
+                  onClick={() => __handleChangePage(item)}>
                   {item}
                 </span>
               ))}
@@ -106,8 +103,7 @@ const ToggleSwitch = ({ toggle, handleChange, id }) => {
           name=""
           id=""
           defaultValue={toggle}
-          onChange={(e) => handleChange(e.target.value, id)}
-        >
+          onChange={(e) => handleChange(e.target.value, id)}>
           <option value="OPEN">OPEN</option>
           <option value="CLOSE">CLOSE</option>
         </select>
