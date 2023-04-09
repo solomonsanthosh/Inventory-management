@@ -77,7 +77,7 @@ exports.loginAccount = async (req, res) => {
       res.json({ message: "nouser" });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error, "eerr");
   }
 };
 exports.refresh = async (req, res) => {
