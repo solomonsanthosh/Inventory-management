@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const server_link = "http://54.238.99.205/api";
+const server_link = "https://inventory-server-3jgi.onrender.com/api";
 
 export const gettickets = async () => {
   // return await axios.get(`${process.env.REACT_APP_BASE_URL}/gettickets`);

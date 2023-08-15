@@ -4,8 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Manager from "./Pages/Manager/Manager";
 import Suggest from "./Pages/Manager/Suggest";
-import SignIn from "./Pages/Auth/SignIn";
 import CreateAccount from "./Pages/Manager/CreateAccount";
+import SignIn from "./Pages/auth/SignIn"
 import ShowAccounts from "./Pages/Manager/ShowAccounts";
 import LocalStorage from "./Pages/Store/LocalStorage";
 import TicketGenerate from "./Pages/Ticket/TicketGenerate";
